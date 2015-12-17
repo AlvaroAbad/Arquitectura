@@ -25,23 +25,41 @@ void AppStatePause::draw() const
 		Renderer::Instance().DrawText(font, options[i], this->x - this->font->GetTextWidth(this->options[i]) / 2, posY);
 		posY += this->font->GetTextHeight(options[i]);
 	}
+	Renderer::Instance().SetColor(255, 255, 255, 255);
+	Renderer::Instance().DrawImage(selectorImage, x - 70, y + (selectedOption*font->GetHeight()), 0, 16, 16);
 }
 
-void AppStatePause::getInputs() const
+void AppStatePause::getInputs()
 {
-	if (Screen::Instance().KeyPressed(GLFW_KEY_ESC)) {
-		whantedState = STATE_MENU;
+	if (Screen::Instance().KeyPressed(GLFW_KEY_ENTER)) {
+		switch (selectedOption) {
+		case 0:
+			whantedState = STATE_GAME;
+			break;
+		case 1:
+			whantedState = STATE_NULL;
+			break;
+		}
 	}
-	else if (Screen::Instance().KeyPressed(GLFW_KEY_ENTER)) {
-		whantedState = STATE_GAME;
+	else if (Screen::Instance().KeyPressed(GLFW_KEY_DOWN)) {
+			if (selectedOption < 1) {
+				selectedOption++;
+			}
+	}
+	else if (Screen::Instance().KeyPressed(GLFW_KEY_UP)) {
+		if (selectedOption) {
+			selectedOption--;
+		}
 	}
 }
 
 void AppStatePause::activate()
 {
-	String fontFileName;
-	fontFileName = "data/arial16.png";
-	font = ResourceManager::Instance().LoadFont(fontFileName);
+	String FileName;
+	FileName = "data/arial16.png";
+	font = ResourceManager::Instance().LoadFont(FileName);
+	FileName = "data/next.png";
+	selectorImage = ResourceManager::Instance().LoadImage(FileName);
 	this->options.Add("Start(enter)");
 	this->options.Add("Exit(Esc)");
 }

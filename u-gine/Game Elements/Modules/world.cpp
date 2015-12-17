@@ -30,7 +30,7 @@ void World::worldInit()
 	playerImage->SetMidHandle();
 	srand(0);
 	player = new Player(playerImage, "0", Screen::Instance().GetWidth() / 2, Screen::Instance().GetHeight() - 10, 10);
-
+	enemies.Add(player);
 	//collisioner init
 	EnemyCollisioner *newCollisioner = new EnemyCollisioner(collisionerImage, "0", Screen::Instance().GetWidth(), rand() % 100 + (Screen::Instance().GetHeight() - 100), 20, 20);
 	newCollisioner->setSpeed(-(rand() % (int)(50 + speedBoost) + 50 + speedBoost));
@@ -141,7 +141,7 @@ void World::playerUpdate(double elapsed)
 		}
 	}
 	else {
-		if (player->isOverheated()) {
+		if (player->getOverheat() > 0) {
 			player->setOverheat(player->getOverheat() - 1 * elapsed);
 		}
 		if (player->getOverheat() <= 0) {
@@ -171,7 +171,7 @@ void World::playerUpdate(double elapsed)
 void World::enemiesUpdate(double elapsed)
 {
 	for (size_t i = 0; i < enemies.Size(); i++)
-	{
+	{	if(enemies[i]->getType()!='P'){
 		this->enemies[i]->update(elapsed);
 		if (this->rectCircleColision(this->enemies[i]->getX(), this->enemies[i]->getY(), this->enemies[i]->getWidth(), this->enemies[i]->getHeight(), this->player->getX(), this->player->getY(), this->player->getWidth() / 2, this->player->getHeight() / 2)) {
 			this->enemies[i]->kill();
@@ -181,6 +181,7 @@ void World::enemiesUpdate(double elapsed)
 		if (this->enemies[i]->isDead()) {
 			this->deadEnemies.Add(enemies[i]);
 		}
+	}
 	}
 	for (size_t i = 0; i < this->deadEnemies.Size(); i++)
 	{

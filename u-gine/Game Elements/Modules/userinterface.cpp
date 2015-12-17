@@ -22,9 +22,6 @@ void UserInterface::run()
 		this->world->getPlayer()->setHeight(this->world->getPlayer()->getHeight() - this->world->getPlayer()->getRadius());
 	}
 	if (Screen::Instance().MouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT) && !this->world->getPlayer()->isFiring() && !this->world->getPlayer()->isOverheated()) {
-		this->world->getPlayer()->setFiringLimit(1);
-	}
-	else {
-		this->world->getPlayer()->setFiringLimit(0);
+		this->world->getPlayer()->setFiringLimit(0.5);
 	}
 }

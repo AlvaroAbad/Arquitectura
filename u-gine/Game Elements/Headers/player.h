@@ -35,11 +35,11 @@ public:
 	virtual bool isOverheated() const { return  this->status & 0x02; }
 	virtual void overheated() { this->status |= 0x02; }
 	virtual void cooled() { this->status &= ~0x02; }
-	virtual bool isFiring()const { return  this->firing; }
+	virtual bool isFiring()const { return  this->firing>0; }
 	
 	//indicators setters and getters
 	virtual void setFiringLimit(double time) { this->firing = time; }
-	virtual int32 getFiringLimit() { return this->firing; }
+	virtual double getFiringLimit() { return this->firing; }
 	virtual void setOverheat(int32 overheat) { this->overheat = overheat; }
 	virtual int32 getOverheat()const { return this->overheat; }
 	virtual void setDirection(int32 direction) { this->direction = direction; }

@@ -4,12 +4,9 @@
 class UserInterface
 {
 public:
-	UserInterface() { this->world = nullptr; };
-	void userInterfaceInit() {
-		world = new World();
-		world->worldInit();
-	}
-	~UserInterface() { delete this->world; };
+	UserInterface(World * world) { this->world = world; };
+	void userInterfaceInit() {}
+	~UserInterface() {};
 	World * getWorld() { return this->world; }
 	void run();
 

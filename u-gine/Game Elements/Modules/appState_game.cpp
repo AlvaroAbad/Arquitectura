@@ -12,7 +12,7 @@ void AppStateGame::draw() const
 	game->draw();
 }
 
-void AppStateGame::getInputs() const
+void AppStateGame::getInputs()
 {
 	game->getInput();
 	if (Screen::Instance().KeyPressed(GLFW_KEY_ESC) || game->isEndGame()) {

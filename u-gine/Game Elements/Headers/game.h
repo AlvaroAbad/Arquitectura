@@ -7,6 +7,7 @@ class Game
 public:
 	Game(){};
 	~Game() {  
+		delete world;
 		delete ui; 
 	}
 	void initialize();

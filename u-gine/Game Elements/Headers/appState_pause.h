@@ -8,17 +8,19 @@ public:
 	AppStatePause() {
 		this->setState(STATE_PAUSE);
 		font = nullptr;
+		selectedOption = 0;
 	}
 	virtual ~AppStatePause() {};
 	void virtual run();
 	void virtual draw() const;
-	void virtual getInputs() const;
+	void virtual getInputs();
 	void virtual activate();
 	void virtual deactivate();
 private:
 	Array<String> options;
 	Font *font;
-	uint32 x, y;
+	Image *selectorImage;
+	uint32 x, y, selectedOption;
 };
 
 #endif

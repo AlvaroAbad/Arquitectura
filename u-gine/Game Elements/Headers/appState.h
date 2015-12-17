@@ -13,7 +13,7 @@ public:
 	virtual ~AppState() {};
 	 void virtual run() =0;
 	 void virtual draw() const = 0;
-	 void virtual getInputs() const = 0;
+	 void virtual getInputs() = 0;
 	 void virtual activate()  = 0;
 	 void virtual deactivate() = 0;
 	 void setState(appStates state) { this->state = state; }

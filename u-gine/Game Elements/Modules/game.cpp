@@ -1,11 +1,9 @@
 #include "..\Headers\game.h"
 
 void Game::initialize()
-{
-	ui = new UserInterface();
-	this->ui->userInterfaceInit();
-	world = this->ui->getWorld();
-	
+{	world = new World();
+world->worldInit();
+	ui = new UserInterface(world);
 }
 
 void Game::run()

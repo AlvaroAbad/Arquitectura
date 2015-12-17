@@ -11,7 +11,7 @@ public:
 	virtual ~AppStateGame() {};
 	void virtual run();
 	void virtual draw() const;
-	void virtual getInputs() const;
+	void virtual getInputs();
 	void virtual activate();
 	void virtual deactivate();
 private:
