@@ -60,8 +60,8 @@ void AppStatePause::activate()
 	font = ResourceManager::Instance().LoadFont(FileName);
 	FileName = "data/next.png";
 	selectorImage = ResourceManager::Instance().LoadImage(FileName);
-	this->options.Add("Start(enter)");
-	this->options.Add("Exit(Esc)");
+	this->options.Add("Continue");
+	this->options.Add("Exit");
 }
 
 void AppStatePause::deactivate()

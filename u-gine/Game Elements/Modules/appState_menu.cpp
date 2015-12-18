@@ -7,6 +7,18 @@
 void AppStateMenu::run() {
 	this->x = Screen::Instance().GetWidth() / 2;
 	this->y = Screen::Instance().GetHeight() / 2;
+	if (screen) {
+		this->options.Clear();
+		this->options.Add("Nivel 1");
+		this->options.Add("Nivel 2");
+		this->options.Add("Nivel 3");
+		this->options.Add("Back");
+	}
+	else {
+		this->options.Clear();
+		this->options.Add("Start");
+		this->options.Add("Exit");
+	}
 }
 
 void AppStateMenu::draw() const {
@@ -20,36 +32,69 @@ void AppStateMenu::draw() const {
 		posY += this->font->GetTextHeight(options[i]);
 	}
 	Renderer::Instance().DrawImage(selectorImage, x - 70, y + (selectedOption*font->GetHeight()),0,16,16);
+
 }
 
 void AppStateMenu::getInputs() {
-	if (Screen::Instance().KeyPressed(GLFW_KEY_ENTER)) {
-		switch(selectedOption) {
-		case 0:
-			whantedState = STATE_GAME;
-			break;
-		case 1:
-			whantedState = STATE_NULL;
-			break;
-		case 2:
-			break;
-		}
-	}
-	else if (Screen::Instance().KeyPressed(GLFW_KEY_DOWN)) {
-		if (!screen){
-			if (selectedOption < 1) {
-				selectedOption++;
+	if (ready) {
+		if (Screen::Instance().KeyPressed(GLFW_KEY_ENTER)) {
+			ready = false;
+			lasPressed= GLFW_KEY_ENTER;
+			switch (selectedOption) {
+			case 0:
+				if (!screen) {
+					screen++;
+					selectedOption = 0;
+				}
+				else {
+					whantedState = STATE_GAME;
+					lvlFile = "data/basic.txt";
+				}
+				break;
+			case 1:
+				if (!screen) {
+					whantedState = STATE_NULL;
+				}
+				else {
+					whantedState = STATE_GAME;
+					lvlFile = "data/medium.txt";
+				}
+				break;
+			case 2:
+				whantedState = STATE_GAME;
+				lvlFile = "data/hard.txt";
+				break;
+			case 3:
+				screen--;
+				selectedOption = 0;
+				break;
 			}
+		}
+		else if (Screen::Instance().KeyPressed(GLFW_KEY_DOWN)) {
+			ready = false;
+			lasPressed = GLFW_KEY_DOWN;
+			if (!screen) {
+				if (selectedOption < 1) {
+					selectedOption++;
+				}
+			}
+			else {
+				if (selectedOption < 3) {
+					selectedOption++;
+				}
+			}
+		}
+		else if (Screen::Instance().KeyPressed(GLFW_KEY_UP)) {
+			ready = false;
+			lasPressed = GLFW_KEY_UP;
+			if (selectedOption) {
+				selectedOption--;
+			}
+		}
 	}
 	else {
-		if (selectedOption < 2) {
-			selectedOption++;
-		}
-	}
-	}
-	else if (Screen::Instance().KeyPressed(GLFW_KEY_UP)) {
-		if (selectedOption) {
-			selectedOption--;
+		if (!Screen::Instance().KeyPressed(lasPressed)) {
+			ready = true;
 		}
 	}
 }
@@ -57,14 +102,16 @@ void AppStateMenu::getInputs() {
 void AppStateMenu::activate() {
 	if (game) {
 		delete game;
+		game = nullptr;
 	}
 	String FileName;
 	FileName = "data/arial16.png";
 	font = ResourceManager::Instance().LoadFont(FileName);
 	FileName = "data/next.png";
 	selectorImage = ResourceManager::Instance().LoadImage(FileName);
-	this->options.Add("Start(enter)");
-	this->options.Add("Exit(Esc)");
+	this->options.Add("Start");
+	this->options.Add("Exit");
+	ready = true;
 }
 
 void AppStateMenu::deactivate() {

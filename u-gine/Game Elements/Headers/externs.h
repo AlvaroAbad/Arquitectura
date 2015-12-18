@@ -4,4 +4,5 @@
 #include "../Headers/appState.h"
 extern Game *game;
 extern appStates whantedState;
+extern String lvlFile;
 #endif

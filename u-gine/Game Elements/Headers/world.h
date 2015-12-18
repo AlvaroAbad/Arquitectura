@@ -29,9 +29,10 @@ private:
 	Image *collisionerImage;
 	Image *shooterImage;
 	Image *playerImage;
+	Image *backgroundImage;
 	double speedBoost;
 	Player *player;
-	Array<Entity*> enemies;
+	Array<Entity*> entities;
 	Array<Entity*> deadEnemies;
 	Entity * firstImpact;
 	double collisionersElapsedSpawnTime;

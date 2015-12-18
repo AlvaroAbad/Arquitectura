@@ -1,0 +1,3 @@
+data/hardBG.jpg
+data/shooter2.png
+10

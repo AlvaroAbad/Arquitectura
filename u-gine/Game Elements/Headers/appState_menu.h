@@ -1,7 +1,7 @@
 #ifndef WORLDDEFENDER_APP_STATE_MENU_H
 #define WORLDDEFENDER_APP_STATE_MENU_H
-#include "appState.h";
-#include "../../include/font.h";
+#include "appState.h"
+#include "../../include/font.h"
 class AppStateMenu : public AppState
 {
 public:
@@ -22,6 +22,8 @@ private:
 	Font *font;
 	Image *selectorImage;
 	uint32 x, y, selectedOption, screen;
+	int32 lasPressed;
+	bool ready;
 };
 
 #endif

@@ -1,8 +1,9 @@
 #include "..\Headers\game.h"
 
 void Game::initialize()
-{	world = new World();
-world->worldInit();
+{
+	world = new World();
+	world->worldInit();
 	ui = new UserInterface(world);
 }
 
