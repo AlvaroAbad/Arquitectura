@@ -21,11 +21,13 @@ AppState * newAppState(appStates state) {
 		break;
 	case STATE_PAUSE:
 		return new AppStatePause();
+	case STATE_NULL:		
 	default:
+		return nullptr;
 		break;
 	}
 }
-int main(int argc, char* argv[]) {
+int main(int, char*) {
 	Screen::Instance().Open(800, 600, false);
 	while (whantedState) {
 			if (!currentState || currentState->getState() != whantedState) {

@@ -2,6 +2,7 @@
 #define WORLDDEFENDER_APP_STATE_MENU_H
 #include "appState.h"
 #include "../../include/font.h"
+#pragma warning(disable:4820)
 class AppStateMenu : public AppState
 {
 public:

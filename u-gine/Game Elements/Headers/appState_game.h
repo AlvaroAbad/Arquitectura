@@ -1,7 +1,7 @@
 #ifndef WORLDDEFENDER_APP_STATE_GAME_H
 #define WORLDDEFENDER_APP_STATE_GAME_H
-#include "appState.h";
-#include "../../include/font.h";
+#include "appState.h"
+#include "../../include/font.h"
 class AppStateGame : public AppState
 {
 public:

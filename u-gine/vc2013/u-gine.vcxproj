@@ -149,9 +149,21 @@
     <ClCompile Include="..\src\sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\data\arial16.png" />
+    <Image Include="..\data\basicBG.jpg" />
     <Image Include="..\data\collisioner.png" />
+    <Image Include="..\data\font.png" />
+    <Image Include="..\data\hardBG.jpg" />
+    <Image Include="..\data\mediumBG.jpg" />
+    <Image Include="..\data\next.png" />
+    <Image Include="..\data\player.png" />
     <Image Include="..\data\shooter.png" />
+    <Image Include="..\data\shooter1.png" />
+    <Image Include="..\data\shooter2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\data\basic.txt" />
+    <Text Include="..\data\hard.txt" />
+    <Text Include="..\data\medium.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

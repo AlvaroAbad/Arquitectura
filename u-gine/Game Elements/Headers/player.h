@@ -32,7 +32,7 @@ public:
 	virtual bool isJumping()const { return  this->status & 0x01; }
 	virtual void jump() { this->status |= 0x01; }
 	virtual void land() { this->status &= ~0x01; }
-	virtual bool isOverheated() const { return  this->status & 0x02; }
+	virtual bool isOverheated() const { return  (this->status & 0x02)!=0; }
 	virtual void overheated() { this->status |= 0x02; }
 	virtual void cooled() { this->status &= ~0x02; }
 	virtual bool isFiring()const { return  this->firing>0; }

@@ -7,61 +7,78 @@
 
 void AppStatePause::run()
 {
-	this->x = Screen::Instance().GetWidth() / 2;
-	this->y = Screen::Instance().GetHeight() / 2;
+	
 }
 
 void AppStatePause::draw() const
 {
 	game->draw();
 	uint32 posY;
-	posY = this->y;
+	posY = y;
 	Renderer::Instance().SetColor(204, 204, 204, 128);
 	Renderer::Instance().SetBlendMode(Renderer::ALPHA);
 	Renderer::Instance().DrawRect(0, 0, Screen::Instance().GetWidth(), Screen::Instance().GetHeight());
 	Renderer::Instance().SetColor(255, 0, 0, 255);
-	for (uint8 i = 0; i < this->options.Size(); i++)
+	for (uint8 i = 0; i < options.Size(); i++)
 	{
-		Renderer::Instance().DrawText(font, options[i], this->x - this->font->GetTextWidth(this->options[i]) / 2, posY);
-		posY += this->font->GetTextHeight(options[i]);
+		Renderer::Instance().DrawText(font, options[i], x - TEXT_POITION_OFFSET, posY);
+		posY += font->GetTextHeight(options[i]);
 	}
 	Renderer::Instance().SetColor(255, 255, 255, 255);
-	Renderer::Instance().DrawImage(selectorImage, x - 70, y + (selectedOption*font->GetHeight()), 0, 16, 16);
+	Renderer::Instance().DrawImage(selectorImage, x - TEXT_POITION_OFFSET - SELECTOR_WIDTH_HEIGHT, y + (selectedOption*font->GetHeight()), 0, SELECTOR_WIDTH_HEIGHT, SELECTOR_WIDTH_HEIGHT);
 }
 
 void AppStatePause::getInputs()
 {
-	if (Screen::Instance().KeyPressed(GLFW_KEY_ENTER)) {
-		switch (selectedOption) {
-		case 0:
-			whantedState = STATE_GAME;
-			break;
-		case 1:
-			whantedState = STATE_NULL;
-			break;
+	if (ready) {
+		if (Screen::Instance().KeyPressed(GLFW_KEY_ENTER)) {
+			ready = false;
+			lasPressed = GLFW_KEY_ENTER;
+			switch (selectedOption) {
+			case 0:
+				whantedState = STATE_GAME;
+				break;
+			case 1:
+				whantedState = STATE_MENU;
+				break;
+			case 2:
+				whantedState = STATE_NULL;
+				break;
+			}
 		}
-	}
-	else if (Screen::Instance().KeyPressed(GLFW_KEY_DOWN)) {
-			if (selectedOption < 1) {
+		else if (Screen::Instance().KeyPressed(GLFW_KEY_DOWN)) {
+			ready = false;
+			lasPressed = GLFW_KEY_DOWN;
+			if (selectedOption < 2) {
 				selectedOption++;
 			}
-	}
-	else if (Screen::Instance().KeyPressed(GLFW_KEY_UP)) {
-		if (selectedOption) {
-			selectedOption--;
 		}
+		else if (Screen::Instance().KeyPressed(GLFW_KEY_UP)) {
+			ready = false;
+			lasPressed = GLFW_KEY_UP;
+			if (selectedOption) {
+				selectedOption--;
+			}
+		}	
+	}
+	else if (!Screen::Instance().KeyPressed(lasPressed)) {
+		ready = true;
 	}
 }
 
 void AppStatePause::activate()
 {
 	String FileName;
-	FileName = "data/arial16.png";
+	FileName = "data/font.png";
 	font = ResourceManager::Instance().LoadFont(FileName);
 	FileName = "data/next.png";
 	selectorImage = ResourceManager::Instance().LoadImage(FileName);
-	this->options.Add("Continue");
-	this->options.Add("Exit");
+	options.Add(MENU_CONTINUE);
+	options.Add(MENU_MENU);
+	options.Add(MENU_EXIT);
+	ready = true;
+	x = Screen::Instance().GetWidth() / 2;
+	y = Screen::Instance().GetHeight() / 2;
 }
 
 void AppStatePause::deactivate()

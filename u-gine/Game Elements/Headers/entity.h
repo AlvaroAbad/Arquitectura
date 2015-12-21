@@ -3,6 +3,7 @@
 #include "../../include/string.h"
 #include "../../include/sprite.h"
 #include "../../include/image.h"
+#pragma warning(disable: 4820)
 class Entity{
 public:
 	Entity(Image *image, String id, double x, double y, double height, double width) :id(id), x(x), y(y), height(height), width(width) {
@@ -11,7 +12,7 @@ public:
 		this->sprite->SetScale(width / this->sprite->GetImage()->GetWidth(), height / this->sprite->GetImage()->GetHeight());
 		this->dead = false;
 	};
-	~Entity() { delete(sprite); }
+	virtual ~Entity() { delete(sprite); }
 	//Position setters and getters
 	virtual void setX(double x) { this->sprite->SetX(x); }
 	virtual double getX()const { return this->sprite->GetX(); }

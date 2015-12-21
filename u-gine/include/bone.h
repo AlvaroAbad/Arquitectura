@@ -12,7 +12,7 @@ class Bone {
 public:
     Bone();
     Bone(const String& id, Image* image, double pivotX, double pivotY, double handleX, double handleY);
-
+	virtual ~Bone() {}
     virtual const String& GetID() const { return id; }
     virtual const Image* GetImage() const { return image; }
 

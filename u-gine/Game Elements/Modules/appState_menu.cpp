@@ -4,34 +4,33 @@
 #include "../../include/screen.h"
 #include "../../include/glinclude.h"
 #include "../Headers/externs.h"
+
 void AppStateMenu::run() {
-	this->x = Screen::Instance().GetWidth() / 2;
-	this->y = Screen::Instance().GetHeight() / 2;
 	if (screen) {
-		this->options.Clear();
-		this->options.Add("Nivel 1");
-		this->options.Add("Nivel 2");
-		this->options.Add("Nivel 3");
-		this->options.Add("Back");
+		options.Clear();
+		options.Add("Nivel 1");
+		options.Add("Nivel 2");
+		options.Add("Nivel 3");
+		options.Add(MENU_BACK);
 	}
 	else {
-		this->options.Clear();
-		this->options.Add("Start");
-		this->options.Add("Exit");
+		options.Clear();
+		options.Add(MENU_START);
+		options.Add(MENU_EXIT);
 	}
 }
 
 void AppStateMenu::draw() const {
 	uint32 posY;
-	posY = this->y;
+	posY = y;
 	Renderer::Instance().SetColor(255, 255, 255, 255);
 	Renderer::Instance().SetBlendMode(Renderer::ALPHA);
-	for (uint8 i = 0; i < this->options.Size(); i++)
+	for (uint8 i = 0; i < options.Size(); i++)
 	{
-		Renderer::Instance().DrawText(font, options[i], this->x - this->font->GetTextWidth(this->options[i]) / 2, posY);
-		posY += this->font->GetTextHeight(options[i]);
+		Renderer::Instance().DrawText(font, options[i], x - TEXT_POITION_OFFSET, posY);
+		posY += font->GetTextHeight(options[i]);
 	}
-	Renderer::Instance().DrawImage(selectorImage, x - 70, y + (selectedOption*font->GetHeight()),0,16,16);
+	Renderer::Instance().DrawImage(selectorImage, x - TEXT_POITION_OFFSET- SELECTOR_WIDTH_HEIGHT, y + (selectedOption*font->GetHeight()),0, SELECTOR_WIDTH_HEIGHT, SELECTOR_WIDTH_HEIGHT);
 
 }
 
@@ -92,10 +91,8 @@ void AppStateMenu::getInputs() {
 			}
 		}
 	}
-	else {
-		if (!Screen::Instance().KeyPressed(lasPressed)) {
+	else if (!Screen::Instance().KeyPressed(lasPressed)) {
 			ready = true;
-		}
 	}
 }
 
@@ -105,13 +102,15 @@ void AppStateMenu::activate() {
 		game = nullptr;
 	}
 	String FileName;
-	FileName = "data/arial16.png";
+	FileName = "data/font.png";
 	font = ResourceManager::Instance().LoadFont(FileName);
 	FileName = "data/next.png";
 	selectorImage = ResourceManager::Instance().LoadImage(FileName);
-	this->options.Add("Start");
-	this->options.Add("Exit");
+	options.Add(MENU_START);
+	options.Add(MENU_EXIT);
 	ready = true;
+	x = Screen::Instance().GetWidth() / 2;
+	y = Screen::Instance().GetHeight() / 2;
 }
 
 void AppStateMenu::deactivate() {

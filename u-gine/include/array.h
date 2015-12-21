@@ -25,7 +25,7 @@ public:
     T& Last() { return buffer[size-1]; }
     const T& Last() const { return buffer[size-1]; }
     void RemoveLast() { RemoveAt(Size()-1); }
-    void RemoveAt(int index);
+    void RemoveAt(uint32 index);
     void Remove(T& elem);
     void RemoveEach(T& elem);
     void Clear();
@@ -81,7 +81,7 @@ void Array<T>::Add(const T& elem) {
 }
 
 template <typename T>
-void Array<T>::RemoveAt(int index) {
+void Array<T>::RemoveAt(uint32 index) {
     for ( uint32 i = index+1; i < size; i++ ) buffer[i-1] = buffer[i];
     size--;
 }

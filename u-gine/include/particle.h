@@ -7,7 +7,7 @@ public:
 	Particle();
 	Particle(Image* image, double velx, double vely, double angularVel,	double lifetime,bool autofade);
 	virtual double GetLifetime()const { return this->lifetime; };
-	virtual void Update(double elapsed);
+	void Update(double elapsed);
 private:
 	double velocityx,velocityy;
 	double angularVelocity;

@@ -10,7 +10,7 @@ class BoneData {
 public:
     BoneData() : id(""), parentName(""), imageFilename(""), pivotx(0), pivoty(0), handlex(0), handley(0) {}
     BoneData(const String& id, const String& parentName, const String& imageFilename, double pivotx, double pivoty, double handlex, double handley);
-
+	virtual ~BoneData() {}
     virtual const String& GetId() const { return id; }
     virtual const String& GetParentName() const { return parentName; }
     virtual const String& GetImageFilename() const { return imageFilename; }

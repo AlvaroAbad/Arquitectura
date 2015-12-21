@@ -1,7 +1,7 @@
 #ifndef WORLDDEFENDER_APP_STATE_PAUSE_H
 #define WORLDDEFENDER_APP_STATE_PAUSE_H
-#include "appState.h";
-#include "../../include/font.h";
+#include "appState.h"
+#include "../../include/font.h"
 class AppStatePause : public AppState
 {
 public:
@@ -21,6 +21,8 @@ private:
 	Font *font;
 	Image *selectorImage;
 	uint32 x, y, selectedOption;
+	int32 lasPressed;
+	bool ready;
 };
 
 #endif

@@ -220,14 +220,46 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\data\arial16.png">
-      <Filter>Data</Filter>
-    </Image>
     <Image Include="..\data\collisioner.png">
       <Filter>Data</Filter>
     </Image>
     <Image Include="..\data\shooter.png">
       <Filter>Data</Filter>
     </Image>
+    <Image Include="..\data\hardBG.jpg">
+      <Filter>Data</Filter>
+    </Image>
+    <Image Include="..\data\mediumBG.jpg">
+      <Filter>Data</Filter>
+    </Image>
+    <Image Include="..\data\next.png">
+      <Filter>Data</Filter>
+    </Image>
+    <Image Include="..\data\player.png">
+      <Filter>Data</Filter>
+    </Image>
+    <Image Include="..\data\shooter1.png">
+      <Filter>Data</Filter>
+    </Image>
+    <Image Include="..\data\shooter2.png">
+      <Filter>Data</Filter>
+    </Image>
+    <Image Include="..\data\basicBG.jpg">
+      <Filter>Data</Filter>
+    </Image>
+    <Image Include="..\data\font.png">
+      <Filter>Data</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\data\hard.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="..\data\medium.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="..\data\basic.txt">
+      <Filter>Data</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -3,7 +3,7 @@
 #include "../include/math.h"
 #include <math.h>
 #include <stdlib.h>
-
+#pragma warning (disable: 4388)
 extern "C" uint8 *stbi_load(char const *, int *, int *, int *, int);
 extern "C" void stbi_image_free(void *);
 
