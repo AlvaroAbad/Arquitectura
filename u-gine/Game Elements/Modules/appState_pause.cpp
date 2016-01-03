@@ -69,7 +69,7 @@ void AppStatePause::getInputs()
 void AppStatePause::activate()
 {
 	String FileName;
-	FileName = "data/font.png";
+	FileName = FONT_DIR;
 	font = ResourceManager::Instance().LoadFont(FileName);
 	FileName = "data/next.png";
 	selectorImage = ResourceManager::Instance().LoadImage(FileName);

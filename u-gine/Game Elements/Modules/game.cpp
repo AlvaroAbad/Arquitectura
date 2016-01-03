@@ -1,6 +1,7 @@
 #include "..\Headers\game.h"
 #include "../../include/resourcemanager.h"
 #include "../../include/screen.h"
+#include "../Headers/externs.h"
 
 void Game::initialize()
 {
@@ -8,7 +9,7 @@ void Game::initialize()
 	world->worldInit();
 	ui = new UserInterface(world);
 	//Load Font
-	String fontFileName = "data/font.png";
+	String fontFileName = FONT_DIR;
 	font = ResourceManager::Instance().LoadFont(fontFileName);
 
 	playingTime = 0;

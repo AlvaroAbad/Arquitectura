@@ -1,8 +1,9 @@
-#include "..\Headers\world.h"
+#include "../Headers/world.h"
 #include "../../include/screen.h"
 #include "../../include/resourcemanager.h"
 #include "../../include/math.h"
 #include "../Headers/game.h"
+#include "../Headers/lvlManager.h"
 
 #define COLLISIONER_SPEED_LIMIT 50
 #define COLLISIONER_SIZE 20
@@ -20,9 +21,7 @@ World::World()
 	mouseY = 0;
 	font = nullptr;
 	collisionerImage = nullptr;
-	shooterImage = nullptr;
 	playerImage = nullptr;
-	speedBoost = 0;
 	player = nullptr;
 	firstImpact = nullptr;
 	collisionersElapsedSpawnTime = 0;
@@ -37,21 +36,6 @@ void World::worldInit()
 	//Load Font
 	String fontFileName = "data/font.png";
 	font = ResourceManager::Instance().LoadFont(fontFileName);
-
-	//Load Level Config
-	imageFile = String::Read(lvlFile);
-	lvlCfg = imageFile.Split("\n");
-
-	//Load Background
-	imageFile = lvlCfg[0].Replace("\r", "");
-	backgroundImage = ResourceManager::Instance().LoadImage(imageFile);
-
-	//Load Shooter Image
-	imageFile = lvlCfg[1].Replace("\r", "");
-	shooterImage = ResourceManager::Instance().LoadImage(imageFile);
-
-	//Set Speed
-	speedBoost = atoi(lvlCfg[2].ToCString());
 
 	//Load Collisioner Image
 	imageFile = "data/collisioner.png";
@@ -70,13 +54,13 @@ void World::worldInit()
 
 	//collisioner init
 	EnemyCollisioner *newCollisioner = new EnemyCollisioner(collisionerImage, "0", Screen::Instance().GetWidth(), rand() % COLLISIONER_SPAWN_AREA + (Screen::Instance().GetHeight() - COLLISIONER_SPAWN_AREA - COLLISIONER_SIZE), COLLISIONER_SIZE, COLLISIONER_SIZE);
-	newCollisioner->setSpeed(-(rand() % (int)(COLLISIONER_SPEED_LIMIT + speedBoost * 10) + COLLISIONER_SPEED_LIMIT + speedBoost * 10));
+	newCollisioner->setSpeed(-(rand() % (int)(COLLISIONER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10) + COLLISIONER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10));
 	entities.Add(newCollisioner);
 
 	//shooter init
-	EnemyShooter *newShooter = new EnemyShooter(shooterImage, "0", (rand() % 1)* Screen::Instance().GetWidth(), rand() % (Screen::Instance().GetHeight() / 2), SHOOTER_SIZE, SHOOTER_SIZE);
-	newShooter->setSpeedX(rand() % (int)(SHOOTER_SPEED_LIMIT + speedBoost * 10) - ((SHOOTER_SPEED_LIMIT + speedBoost * 10) / 2));
-	newShooter->setSpeedY(rand() % (int)(SHOOTER_SPEED_LIMIT + speedBoost * 10) - ((SHOOTER_SPEED_LIMIT + speedBoost * 10) / 2));
+	EnemyShooter *newShooter = new EnemyShooter(LevelManager::Instance().getShooterImage(), "0", (rand() % 1)* Screen::Instance().GetWidth(), rand() % (Screen::Instance().GetHeight() / 2), SHOOTER_SIZE, SHOOTER_SIZE);
+	newShooter->setSpeedX(rand() % (int)(SHOOTER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10) - ((SHOOTER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10) / 2));
+	newShooter->setSpeedY(rand() % (int)(SHOOTER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10) - ((SHOOTER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10) / 2));
 	entities.Add(newShooter);
 
 }
@@ -113,7 +97,7 @@ void World::run()
 void World::draw()
 {
 	Renderer::Instance().SetColor(255, 255, 255, 255);
-	Renderer::Instance().DrawImage(backgroundImage, 0, 0, 0, Screen::Instance().GetWidth(), Screen::Instance().GetHeight());
+	Renderer::Instance().DrawImage(LevelManager::Instance().getBackgroundImage(), 0, 0, 0, Screen::Instance().GetWidth(), Screen::Instance().GetHeight());
 	if (player->isFiring()) {
 		double centerX, centerY, distance;
 		double angle = Angle(player->getX(), player->getY(), mouseX, mouseY);
@@ -127,7 +111,7 @@ void World::draw()
 			centerY = firstImpact->getY() + firstImpact->getHeight() / 2;
 			distance = Distance(player->getX(), player->getY(), centerX, centerY);
 			if (firstImpact->getType() == 'S') {
-				game->setScore(game->getScore() + (10 + (speedBoost / 2)));
+				game->setScore(game->getScore() + (10 + (LevelManager::Instance().getSpeedBoost() / 2)));
 				entities.Remove(firstImpact);
 				delete(firstImpact);
 			}
@@ -138,14 +122,7 @@ void World::draw()
 	}
 	for (uint32 i = 0; i < entities.Size(); i++)
 	{
-		if (entities[i]->getType() == 'P') {
-			entities[i]->setColor(255, 255 - player->getOverheat(), 255 - player->getOverheat() * 2);
 			entities[i]->render();
-		}
-		else {
-			entities[i]->render();
-		}
-
 	}
 	player->setWidth(player->getRadius() * 2);
 	player->setHeight(player->getRadius() * 2);
@@ -230,16 +207,16 @@ void World::enemiesUpdate(double elapsed)
 		entities.Remove(deadEnemies[i]);
 	}
 	deadEnemies.Clear();
-	if (!((int)collisionersElapsedSpawnTime % (int)(11 - speedBoost)) && (int)collisionersElapsedSpawnTime) {
+	if (!((int)collisionersElapsedSpawnTime % (int)(11 - LevelManager::Instance().getSpeedBoost())) && (int)collisionersElapsedSpawnTime) {
 		EnemyCollisioner *newEnemy = new EnemyCollisioner(collisionerImage, String::Chr('C') + String::FromInt(elapsed), Screen::Instance().GetWidth(), rand() % COLLISIONER_SPAWN_AREA + (Screen::Instance().GetHeight() - COLLISIONER_SPAWN_AREA - COLLISIONER_SIZE), COLLISIONER_SIZE, COLLISIONER_SIZE);
-		newEnemy->setSpeed(-(rand() % (int)(COLLISIONER_SPEED_LIMIT + speedBoost * 10) + COLLISIONER_SPEED_LIMIT + speedBoost * 10));
+		newEnemy->setSpeed(-(rand() % (int)(COLLISIONER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10) + COLLISIONER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10));
 		entities.Add(newEnemy);
 		collisionersElapsedSpawnTime = 0;
 	}
-	if (!((int)shootersElapsedSpawnTime % (int)(11 - speedBoost)) && (int)shootersElapsedSpawnTime) {
-		EnemyShooter *newEnemy = new EnemyShooter(shooterImage, String::Chr('S') + String::FromInt(elapsed), (rand() % 1)* Screen::Instance().GetWidth(), rand() % (Screen::Instance().GetHeight() / 2), SHOOTER_SIZE, SHOOTER_SIZE);
-		newEnemy->setSpeedX(rand() % (int)(SHOOTER_SPEED_LIMIT + speedBoost * 10) - ((SHOOTER_SPEED_LIMIT + speedBoost * 10) / 2));
-		newEnemy->setSpeedY(rand() % (int)(SHOOTER_SPEED_LIMIT + speedBoost * 10) - ((SHOOTER_SPEED_LIMIT + speedBoost * 10) / 2));
+	if (!((int)shootersElapsedSpawnTime % (int)(11 - LevelManager::Instance().getSpeedBoost())) && (int)shootersElapsedSpawnTime) {
+		EnemyShooter *newEnemy = new EnemyShooter(LevelManager::Instance().getShooterImage(), String::Chr('S') + String::FromInt(elapsed), (rand() % 1)* Screen::Instance().GetWidth(), rand() % (Screen::Instance().GetHeight() / 2), SHOOTER_SIZE, SHOOTER_SIZE);
+		newEnemy->setSpeedX(rand() % (int)(SHOOTER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10) - ((SHOOTER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10) / 2));
+		newEnemy->setSpeedY(rand() % (int)(SHOOTER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10) - ((SHOOTER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10) / 2));
 		entities.Add(newEnemy);
 		shootersElapsedSpawnTime = 0;
 	}

@@ -9,7 +9,7 @@
 #define MENU_MENU "Menu"
 #define MENU_EXIT "Exit"
 #define MENU_BACK "Back"
+#define FONT_DIR "data/font.png"
 extern Game *game;
 extern appStates whantedState;
-extern String lvlFile;
 #endif

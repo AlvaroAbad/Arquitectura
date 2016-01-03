@@ -27,10 +27,7 @@ private:
 	int32 mouseX, mouseY;
 	Font *font;
 	Image *collisionerImage;
-	Image *shooterImage;
 	Image *playerImage;
-	Image *backgroundImage;
-	double speedBoost;
 	Player *player;
 	Array<Entity*> entities;
 	Array<Entity*> deadEnemies;

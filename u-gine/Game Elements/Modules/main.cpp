@@ -9,7 +9,6 @@
 AppState *currentState = nullptr;
 appStates whantedState = STATE_MENU;
 Game *game = nullptr;
-String lvlFile;;
 AppState * newAppState(appStates state) {
 	switch (state)
 	{

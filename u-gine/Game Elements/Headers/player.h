@@ -46,6 +46,7 @@ public:
 	virtual int32 getDirection()const { return this->direction; }
 
 	virtual void update(double elapsed);
+	virtual void render();
 private:
 	double radius;
 	direction movement;

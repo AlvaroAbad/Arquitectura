@@ -4,7 +4,7 @@
 #include "../../include/screen.h"
 #include "../../include/glinclude.h"
 #include "../Headers/externs.h"
-
+#include "../Headers/lvlManager.h"
 void AppStateMenu::run() {
 	if (screen) {
 		options.Clear();
@@ -47,7 +47,7 @@ void AppStateMenu::getInputs() {
 				}
 				else {
 					whantedState = STATE_GAME;
-					lvlFile = "data/basic.txt";
+					LevelManager::Instance().loadLevel(LevelManager::EASY);
 				}
 				break;
 			case 1:
@@ -57,11 +57,13 @@ void AppStateMenu::getInputs() {
 				else {
 					whantedState = STATE_GAME;
 					lvlFile = "data/medium.txt";
+					LevelManager::Instance().loadLevel(LevelManager::MEDIUM);
 				}
 				break;
 			case 2:
 				whantedState = STATE_GAME;
 				lvlFile = "data/hard.txt";
+				LevelManager::Instance().loadLevel(LevelManager::HARD);
 				break;
 			case 3:
 				screen--;
@@ -102,7 +104,7 @@ void AppStateMenu::activate() {
 		game = nullptr;
 	}
 	String FileName;
-	FileName = "data/font.png";
+	FileName = FONT_DIR;
 	font = ResourceManager::Instance().LoadFont(FileName);
 	FileName = "data/next.png";
 	selectorImage = ResourceManager::Instance().LoadImage(FileName);

@@ -89,6 +89,7 @@
     <ClInclude Include="..\Game Elements\Headers\enemyCollisioner.h" />
     <ClInclude Include="..\Game Elements\Headers\externs.h" />
     <ClInclude Include="..\Game Elements\Headers\game.h" />
+    <ClInclude Include="..\Game Elements\Headers\lvlManager.h" />
     <ClInclude Include="..\Game Elements\Headers\player.h" />
     <ClInclude Include="..\Game Elements\Headers\enemyShooter.h" />
     <ClInclude Include="..\Game Elements\Headers\userinterface.h" />
@@ -126,6 +127,7 @@
     <ClCompile Include="..\Game Elements\Modules\enemyCollisioner.cpp" />
     <ClCompile Include="..\Game Elements\Modules\enemyShooter.cpp" />
     <ClCompile Include="..\Game Elements\Modules\game.cpp" />
+    <ClCompile Include="..\Game Elements\Modules\lvlManager.cpp" />
     <ClCompile Include="..\Game Elements\Modules\main.cpp" />
     <ClCompile Include="..\Game Elements\Modules\player.cpp" />
     <ClCompile Include="..\Game Elements\Modules\userinterface.cpp" />
