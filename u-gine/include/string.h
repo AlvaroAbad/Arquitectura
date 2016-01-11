@@ -1,10 +1,6 @@
 #ifndef UGINE_STRING_H
 #define UGINE_STRING_H
-#pragma warning(disable:4365)
-#pragma warning(disable:4996)
-#pragma warning(disable:4514)
-#pragma warning(disable:4242)
-#pragma warning(disable:4244)
+
 #include "array.h"
 #include <ctype.h>
 #include <stdio.h>

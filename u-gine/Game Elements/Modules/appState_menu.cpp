@@ -56,13 +56,11 @@ void AppStateMenu::getInputs() {
 				}
 				else {
 					whantedState = STATE_GAME;
-					lvlFile = "data/medium.txt";
 					LevelManager::Instance().loadLevel(LevelManager::MEDIUM);
 				}
 				break;
 			case 2:
 				whantedState = STATE_GAME;
-				lvlFile = "data/hard.txt";
 				LevelManager::Instance().loadLevel(LevelManager::HARD);
 				break;
 			case 3:

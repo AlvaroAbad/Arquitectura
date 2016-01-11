@@ -7,8 +7,7 @@
 #include "../include/renderer.h"
 //#include "../include/circlecollision.h"
 #include <math.h>
-#pragma warning(disable:4244)
-#pragma warning(disable:4100)
+
 Sprite::Sprite(Image* image) {
 	this->image = image;
 	this->x = 0;
@@ -54,37 +53,15 @@ Sprite::~Sprite() {
 }
 
 void Sprite::SetCollision(CollisionMode mode) {
-	switch (mode)
-	{
-	case Sprite::COLLISION_NONE:
-		this->collision = nullptr;
-		break;
-	case Sprite::COLLISION_CIRCLE:
-		this->collision = nullptr;
-		break;
-	case Sprite::COLLISION_PIXEL:
-		this->collision = nullptr;
-		break;
-	case Sprite::COLLISION_RECT:
-		this->collision = nullptr;
-		break;
-	default:
-		break;
-	}
+	this->collision = nullptr;
 }
 
 bool Sprite::CheckCollision(Sprite* sprite) {
-	if (sprite) {
-		return false;
-	}
 	return false;
 	// TAREA: Implementar
 }
 
 bool Sprite::CheckCollision(const Map* map) {
-	if (map) {
-		return false;
-	}
 	return false;
 	// TAREA: Implementar
 }
@@ -129,6 +106,7 @@ void Sprite::Update(double elapsed, const Map* map) {
 	// Informacion inicial de colision
 	colSprite = NULL;
 	collided = false;
+
 	//Actualizar animacion
 	this->currentFrame += this->animFPS*elapsed;
 	if (this->currentFrame > this->lastFrame) {
@@ -139,7 +117,7 @@ void Sprite::Update(double elapsed, const Map* map) {
 	}
 	//Actualizar angulo
 	if (this->rotating) {
-		this->degreesToRotate -= abs((int)this->rotatingSpeed)*elapsed;
+		this->degreesToRotate -= abs(this->rotatingSpeed)*elapsed;
 		this->angle += this->rotatingSpeed*elapsed;
 		if (degreesToRotate <= 0) {
 			this->angle = this->toAngle;

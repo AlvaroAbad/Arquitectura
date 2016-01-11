@@ -3,7 +3,7 @@
 #include "../include/math.h"
 #include <math.h>
 #include <stdlib.h>
-#pragma warning (disable: 4388)
+
 extern "C" uint8 *stbi_load(char const *, int *, int *, int *, int);
 extern "C" void stbi_image_free(void *);
 
@@ -33,7 +33,7 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 		}
 		else {
 			uint8 * newBuffer = (uint8 *)malloc(newWidth*newHeight * 4);
-			memset(newBuffer, 0, newWidth*newHeight * 4);
+			memset(newBuffer, 128, newWidth*newHeight * 4);
 			uint64 newBuffermargin = 0;
 			uint64 bufferMargin = 0;
 			for (uint64 h = 0; h < height; h++)

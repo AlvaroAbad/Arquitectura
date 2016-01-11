@@ -24,8 +24,7 @@ public:
     virtual void Clear(uint8 r = 0, uint8 g = 0, uint8 b = 0) const;
     virtual void DrawPoint(double x, double y) const;
     virtual void DrawLine(double x1, double y1, double x2, double y2) const;
-	void DrawTriangle(double x, double y, double width, double height) const;
-	virtual void DrawRect(double x, double y, double width, double height) const;
+    virtual void DrawRect(double x, double y, double width, double height) const;
     virtual void DrawEllipse(double x, double y, double xradius, double yradius) const;
 	virtual uint32 GenImage(uint8* buffer, uint16 width, uint16 height)const;
 	virtual void setTexPixeles(uint8 * buffer, uint32 gltex, uint16 width, uint16 height)const;

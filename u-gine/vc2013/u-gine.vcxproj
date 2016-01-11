@@ -85,6 +85,7 @@
     <ClInclude Include="..\Game Elements\Headers\appState_game.h" />
     <ClInclude Include="..\Game Elements\Headers\appState_menu.h" />
     <ClInclude Include="..\Game Elements\Headers\appState_pause.h" />
+    <ClInclude Include="..\Game Elements\Headers\bullet.h" />
     <ClInclude Include="..\Game Elements\Headers\entity.h" />
     <ClInclude Include="..\Game Elements\Headers\enemyCollisioner.h" />
     <ClInclude Include="..\Game Elements\Headers\externs.h" />
@@ -94,6 +95,7 @@
     <ClInclude Include="..\Game Elements\Headers\enemyShooter.h" />
     <ClInclude Include="..\Game Elements\Headers\userinterface.h" />
     <ClInclude Include="..\Game Elements\Headers\world.h" />
+    <ClInclude Include="..\include\affector.h" />
     <ClInclude Include="..\include\array.h" />
     <ClInclude Include="..\include\bone.h" />
     <ClInclude Include="..\include\bonedata.h" />
@@ -124,6 +126,7 @@
     <ClCompile Include="..\Game Elements\Modules\appState_game.cpp" />
     <ClCompile Include="..\Game Elements\Modules\appState_menu.cpp" />
     <ClCompile Include="..\Game Elements\Modules\appState_pause.cpp" />
+    <ClCompile Include="..\Game Elements\Modules\bullet.cpp" />
     <ClCompile Include="..\Game Elements\Modules\enemyCollisioner.cpp" />
     <ClCompile Include="..\Game Elements\Modules\enemyShooter.cpp" />
     <ClCompile Include="..\Game Elements\Modules\game.cpp" />
@@ -133,6 +136,7 @@
     <ClCompile Include="..\Game Elements\Modules\userinterface.cpp" />
     <ClCompile Include="..\Game Elements\Modules\world.cpp" />
     <ClCompile Include="..\lib\stb_image.c" />
+    <ClCompile Include="..\src\affector.cpp" />
     <ClCompile Include="..\src\bone.cpp" />
     <ClCompile Include="..\src\camera.cpp" />
     <ClCompile Include="..\src\emitter.cpp" />

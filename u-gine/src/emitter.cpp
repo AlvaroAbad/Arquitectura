@@ -1,5 +1,5 @@
 #include "..\include\emitter.h"
-Emitter::Emitter(Image * image, bool autofade)
+Emitter::Emitter(Image * image, bool autofade, uint32 particlesMaxAffectors)
 {
 	this->image = image;
 	this->autofade = autofade;
@@ -23,31 +23,63 @@ Emitter::Emitter(Image * image, bool autofade)
 	this->maxb = 255;
 	this->blendMode = Renderer::ADDITIVE;
 	this->emitting = false;
+	this->particlesMaxAffectors = particlesMaxAffectors;
+}
+
+Affector * Emitter::getAffector(String id)
+{
+	uint32 numAffector = 0;
+	while (affectors.Size()>numAffector && affectors[numAffector].getId() != id) {
+		numAffector++;
+	}
+	if (affectors.Size() > numAffector) {
+		return &(affectors[numAffector]);
+	}
+	return nullptr;
 }
 
 void Emitter::Update(double elapsed)
 {
-	uint8 r, g, b;
+	uint8 r, g, b,a;
+	uint32 affector;
 	for (uint32 i = 0;i < this->particles.Size();i++) {
-		if (this->maxr == this->minr) {
-			r = this->maxr;
+		affector = 0;
+		while (affectors.Size() > affector && particles[i].isAffectable()) {
+				if (particles[i].GetX() >= affectors[affector].getBound0X() && particles[i].GetX() <= affectors[affector].getBound1X()) {
+					if (particles[i].GetY() >= affectors[affector].getBound0Y() && particles[i].GetY() <= affectors[affector].getBound1Y()) {
+						double LifeTime;
+						if (affectors[affector].velocityXAffected()) {
+							particles[i].setVelocityX(affectors[affector].getVelocityX());
+						}
+						if (affectors[affector].velocityYAffected()) {
+							particles[i].setVelocityY(affectors[affector].getVelocityY());
+						}
+						if (affectors[affector].angularVelocityAffected()) {
+							particles[i].setAngularVelocity(affectors[affector].getAngularVelocity());
+						}
+						if (affectors[affector].lifeTimeAffected()) {
+							LifeTime = affectors[affector].getLifeTime();
+
+							particles[i].setLifetime(LifeTime);
+						}
+						if (affectors[affector].colorAffected()) {
+							r= affectors[affector].getR();
+							g= affectors[affector].getG();
+							b= affectors[affector].getB();
+							if (affectors[affector].lifeTimeAffected()) {
+								a = 255*(1-(particles[i].GetLifetime() / LifeTime));
+							}
+							else {
+								a = particles[i].GetAlpha();
+							}
+							
+							particles[i].SetColor(r,g,b,a);
+						}
+						particles[i].affect();
+					}
+				}
+			affector++;
 		}
-		else {
-			r = (rand() % static_cast<unsigned int>(this->maxr - this->minr)) + this->minr;
-		}
-		if (this->maxg == this->ming) {
-			g = this->maxg;
-		}
-		else {
-			g = (rand() % static_cast<unsigned int>(this->maxg - this->ming)) + this->ming;
-		}
-		if (this->maxb == this->minb) {
-			b = this->maxb;
-		}
-		else {
-			b = (rand() % static_cast<unsigned int>(this->maxb - this->minb)) + this->minb;
-		}
-		this->particles[i].SetColor(r, g, b, this->particles[i].GetAlpha());
 		this->particles[i].Update(elapsed);
 		if (!this->particles[i].GetAlpha()) {
 			this->particles.RemoveAt(i);
@@ -59,9 +91,9 @@ void Emitter::Update(double elapsed)
 			rate = this->maxrate;
 		}
 		else {
-			rate = (rand() % static_cast<unsigned int>(this->maxrate - this->minrate)) + this->minrate;
+			rate = (rand() % static_cast<unsigned int>(this->maxrate + 1 - this->minrate)) + this->minrate;
 		}
-		
+
 		rate = rate*elapsed;
 		for (uint32 i = 0; i < rate;i++)
 		{
@@ -69,44 +101,44 @@ void Emitter::Update(double elapsed)
 				velX = this->maxvelx;
 			}
 			else {
-				velX = (rand() % static_cast<unsigned int>(this->maxvelx - this->minvelx)) + this->minvelx;
+				velX = (rand() % static_cast<unsigned int>(this->maxvelx+1 - this->minvelx)) + this->minvelx;
 			}
 			if (this->maxvely == this->minvely) {
 				velY = this->maxvely;
 			}
 			else {
-				velY = (rand() % static_cast<unsigned int>(this->maxvely - this->minvely)) + this->minvely;
+				velY = (rand() % static_cast<unsigned int>(this->maxvely + 1 - this->minvely)) + this->minvely;
 			}
 
 			if (this->maxangvel == this->minangvel) {
 				angVel = this->maxangvel;
 			}
 			else {
-				angVel = (rand() % static_cast<unsigned int>(this->maxangvel - this->minangvel)) + this->minangvel;
+				angVel = (rand() % static_cast<unsigned int>(this->maxangvel + 1 - this->minangvel)) + this->minangvel;
 			}
 			if (this->maxlifetime == this->minlifetime) {
 				lifeTime = this->maxlifetime;
 			}
 			else {
-				lifeTime = (rand() % static_cast<unsigned int>(this->maxlifetime - this->minlifetime)) + this->minlifetime;
+				lifeTime = (rand() % static_cast<unsigned int>(this->maxlifetime + 1 - this->minlifetime)) + this->minlifetime;
 			}
 			if (this->maxr == this->minr) {
 				r = this->maxr;
 			}
 			else {
-				r = (rand() % static_cast<unsigned int>(this->maxr - this->minr)) + this->minr;
+				r = (rand() % static_cast<unsigned int>(this->maxr + 1 - this->minr)) + this->minr;
 			}
 			if (this->maxg == this->ming) {
 				g = this->maxg;
 			}
 			else {
-				g = (rand() % static_cast<unsigned int>(this->maxg - this->ming)) + this->ming;
+				g = (rand() % static_cast<unsigned int>(this->maxg + 1 - this->ming)) + this->ming;
 			}
 			if (this->maxb == this->minb) {
 				b = this->maxb;
 			}
 			else {
-				b = (rand() % static_cast<unsigned int>(this->maxb - this->minb)) + this->minb;
+				b = (rand() % static_cast<unsigned int>(this->maxb + 1 - this->minb)) + this->minb;
 			}
 			this->particles.Add(Particle(this->image, velX, velY, angVel, lifeTime, this->autofade));
 			this->particles.Last().SetPosition(this->x, this->y);
@@ -119,6 +151,6 @@ void Emitter::Update(double elapsed)
 void Emitter::Render() const
 {
 	for (uint32 i = 0;i < this->particles.Size();i++) {
-		this->particles[i].Render();
+			this->particles[i].Render();
 	}
 }

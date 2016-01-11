@@ -57,14 +57,6 @@ void Renderer::DrawLine(double x1, double y1, double x2, double y2) const {
 	glDrawArrays(GL_LINES, 0, 2);
 }
 
-void Renderer::DrawTriangle(double x, double y, double width, double height) const {
-	GLdouble vertices[] = { x, y, x + width, y, x + width/2, y + height };
-	GLdouble texCoords[] = { 0, 0, 0, 0, 0, 0};
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glVertexPointer(2, GL_DOUBLE, 0, vertices);
-	glTexCoordPointer(2, GL_DOUBLE, 0, texCoords);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
-}
 void Renderer::DrawRect(double x, double y, double width, double height) const {
 	GLdouble vertices[] = { x, y, x + width, y, x, y + height, x + width, y + height };
 	GLdouble texCoords[] = { 0, 0, 0, 0, 0, 0, 0, 0 };

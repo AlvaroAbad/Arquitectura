@@ -43,7 +43,5 @@ int main(int, char*) {
 			Screen::Instance().Refresh();
 			Renderer::Instance().Clear(0, 0, 0);
 		}
-	ResourceManager::Instance().FreeFonts();
-	ResourceManager::Instance().FreeImages();
 	ResourceManager::Instance().FreeResources();
 }

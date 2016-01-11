@@ -34,7 +34,7 @@ void Game::draw()const{
 	text += ":";
 	text += String::FromInt(playingTime);
 	world->draw();
-	Renderer::Instance().SetColor(255, 255, 255, 255);
+	Renderer::Instance().SetColor(255, 0, 0, 255);
 	Renderer::Instance().DrawText(font, text, 0, 0);
 	text = "Score: ";
 	text += String::FromInt(score);

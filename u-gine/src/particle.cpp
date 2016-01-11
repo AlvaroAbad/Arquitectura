@@ -10,6 +10,7 @@ Particle::Particle(Image * image, double velx, double vely, double angularVel, d
 	this->initialLifetime = lifetime;
 	this->lifetime = lifetime;
 	this->autofade = autofade;
+	this->affected = false;
 }
 void Particle::Update(double elapsed)
 {

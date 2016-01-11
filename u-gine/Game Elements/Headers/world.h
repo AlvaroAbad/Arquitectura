@@ -1,8 +1,7 @@
 #ifndef WORLDDEFENDER_WORLD_H
 #define WORLDDEFENDER_WORLD_H
 #include "player.h"
-#include "enemyShooter.h"
-#include "enemyCollisioner.h"
+
 class World
 {
 public:
@@ -28,6 +27,7 @@ private:
 	Font *font;
 	Image *collisionerImage;
 	Image *playerImage;
+	Image *bulletImage;
 	Player *player;
 	Array<Entity*> entities;
 	Array<Entity*> deadEnemies;

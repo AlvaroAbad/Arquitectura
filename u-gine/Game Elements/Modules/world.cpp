@@ -4,6 +4,9 @@
 #include "../../include/math.h"
 #include "../Headers/game.h"
 #include "../Headers/lvlManager.h"
+#include "../Headers/enemyShooter.h"
+#include "../Headers/enemyCollisioner.h"
+#include "../Headers/bullet.h"
 
 #define COLLISIONER_SPEED_LIMIT 50
 #define COLLISIONER_SIZE 20
@@ -12,6 +15,7 @@
 #define SHOOTER_SIZE 60
 #define PLAYER_MAX_RADIOUS 20
 #define INFINITE 9999
+#define GRAVITY 300
 
 extern String lvlFile;
 extern Game *game;
@@ -22,6 +26,7 @@ World::World()
 	font = nullptr;
 	collisionerImage = nullptr;
 	playerImage = nullptr;
+	bulletImage = nullptr;
 	player = nullptr;
 	firstImpact = nullptr;
 	collisionersElapsedSpawnTime = 0;
@@ -45,6 +50,11 @@ void World::worldInit()
 	imageFile = "data/player.png";
 	playerImage = ResourceManager::Instance().LoadImage(imageFile);
 	playerImage->SetMidHandle();
+
+	//Load Player Image
+	imageFile = "data/bullet.png";
+	bulletImage = ResourceManager::Instance().LoadImage(imageFile);
+	bulletImage->SetMidHandle();
 
 	srand(0);
 
@@ -77,12 +87,13 @@ void World::run()
 	double elapsed = Screen::Instance().ElapsedTime();
 	collisionersElapsedSpawnTime += elapsed;
 	shootersElapsedSpawnTime += elapsed;
-	if (player->getRadius() >= PLAYER_MAX_RADIOUS || endGame) {
+	if (player->getRadius() >= PLAYER_MAX_RADIOUS || endGame || player->isDead()) {
 		if (endGame) {
 			player->setRadius(PLAYER_MAX_RADIOUS);
 			endGame = false;
 		}
 		player->setRadius(player->getRadius() + INFINITE / 2 * elapsed);
+		player->setY(player->getY() - INFINITE / 2 * elapsed);
 		if (player->getRadius() > INFINITE) {
 			endGame = true;
 		}
@@ -173,7 +184,7 @@ void World::playerUpdate(double elapsed)
 			player->setDirection(Player::DOWN);
 		}
 		if (player->getY() <= Screen::Instance().GetHeight() - player->getHeight() / 2) {
-			player->setY(player->getY() + 300 * elapsed*player->getDirection());
+			player->setY(player->getY() + GRAVITY * elapsed*player->getDirection());
 		}
 		if (player->getY() >= Screen::Instance().GetHeight() - player->getHeight() / 2 && player->getDirection() == Player::DOWN) {
 			player->setY(Screen::Instance().GetHeight() - player->getHeight() / 2);
@@ -191,12 +202,37 @@ void World::enemiesUpdate(double elapsed)
 	for (size_t i = 0; i < entities.Size(); i++)
 	{
 		if (entities[i]->getType() != 'P') {
+			double x;
 			entities[i]->update(elapsed);
-			if (rectCircleColision(entities[i]->getX(), entities[i]->getY(), entities[i]->getWidth(), entities[i]->getHeight(), player->getX(), player->getY(), player->getWidth() / 2, player->getHeight() / 2)) {
-				entities[i]->kill();
-				player->setRadius(player->getRadius() + 1);
-				player->setY(player->getY() - 1);
+			switch (entities[i]->getType())
+			{
+			case 'S':
+				x = entities[i]->getX();
+				if (entities[i]->getX() > player->getX()- player->getRadius() && entities[i]->getX()< player->getX() + player->getRadius() && reinterpret_cast<EnemyShooter*>(entities[i])->readyToShoot()) {
+					double w, h;
+					w = entities[i]->getWidth();
+					h = entities[i]->getHeight();
+					reinterpret_cast<EnemyShooter*>(entities[i])->fire();
+					Bullet *bullet = new Bullet(bulletImage, String::FromInt(elapsed), entities[i]->getX(), entities[i]->getY(), bulletImage->GetHeight(), bulletImage->GetWidth());
+					bullet->setSpeed(GRAVITY/2);
+					entities.Add(bullet);
+				}
+				break;
+			case 'C':
+				if (rectCircleColision(entities[i]->getX(), entities[i]->getY(), entities[i]->getWidth(), entities[i]->getHeight(), player->getX(), player->getY(), player->getWidth() / 2, player->getHeight() / 2)) {
+					entities[i]->kill();
+					player->setRadius(player->getRadius() + 1);
+					player->setY(player->getY() - 1);
+				}
+				break;
+			case 'B':
+				if (rectCircleColision(entities[i]->getX(), entities[i]->getY(), entities[i]->getWidth(), entities[i]->getHeight(), player->getX(), player->getY(), player->getWidth() / 2, player->getHeight() / 2)) {
+					entities[i]->kill();
+					player->kill();
+				}
+				break;
 			}
+			
 			if (entities[i]->isDead()) {
 				deadEnemies.Add(entities[i]);
 			}

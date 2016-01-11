@@ -1,7 +1,6 @@
 #include "../include/font.h"
 #include "../include/image.h"
 #include "../include/glinclude.h"
-#pragma warning(disable:4100)
 Font::Font(const String & filename) :Image(filename, 16, 16) {
 	uint32 row, column, pixel;
 	uint32 rowOffset = this->GetBufferWidth();
@@ -51,21 +50,31 @@ uint16 Font::GetSize() const {
 uint32 Font::GetTextWidth(const String & text) const {
 	uint32 textSize = 0;
 	const char * chars = text.ToCString();
-	for (int32 i = 0; i < text.Length(); i++) {
+	for (uint32 i = 0; i < text.Length(); i++) {
 		textSize += (*this->glyphs)[chars[i]].getWidth();
 	}
 	return textSize;
 }
 
 uint32 Font::GetTextHeight(const String & text) const {
-	return this->GetHeight();
+	const unsigned char * chars = (unsigned char *)text.ToCString();
+	uint32 ret=0;
+	for (size_t i = 0; i < text.Length(); i++)
+	{
+			if ((*glyphs)[chars[i]].getHeight()>ret) {
+				ret = (*glyphs)[chars[i]].getHeight();
+			}
+	}
+	return ret;
 }
 
 void Font::Render(const String & text, double x, double y) const {
 	const unsigned char * chars = (unsigned char *)text.ToCString();
 	uint32 textPosition = x;
-	for (int32 i = 0; i < text.Length(); i++) {
-		Renderer::Instance().DrawImage(this, textPosition, y, chars[i], this->GetWidth(), this->GetHeight(), 0);
+	uint32 width;
+	for (uint32 i = 0; i < text.Length(); i++) {
+		Renderer::Instance().DrawImage(this, textPosition - (*this->glyphs)[chars[i]].getOffsetX(), y, chars[i], this->GetWidth(), this->GetHeight(), 0);
+		uint32 width = (*this->glyphs)[chars[i]].getWidth();
 		textPosition += (*this->glyphs)[chars[i]].getWidth();
 	}
 }
