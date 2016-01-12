@@ -31,7 +31,7 @@ void Particle::Update(double elapsed)
 		double alphaDecrement=255/ this->initialLifetime;
 		alphaDecrement = alphaDecrement*elapsed;
 		if (alpha - alphaDecrement > 0) {
-			alpha -= alphaDecrement*elapsed;
+			alpha -= alphaDecrement;
 		}
 		else {
 			alpha = 0;

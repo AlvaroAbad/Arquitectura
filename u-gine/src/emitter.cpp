@@ -24,6 +24,7 @@ Emitter::Emitter(Image * image, bool autofade, uint32 particlesMaxAffectors)
 	this->blendMode = Renderer::ADDITIVE;
 	this->emitting = false;
 	this->particlesMaxAffectors = particlesMaxAffectors;
+	this->acumulative = 0;
 }
 
 Affector * Emitter::getAffector(String id)
@@ -95,7 +96,9 @@ void Emitter::Update(double elapsed)
 		}
 
 		rate = rate*elapsed;
-		for (uint32 i = 0; i < rate;i++)
+		rate += acumulative;
+		acumulative = rate-static_cast<uint32>(rate);
+		for (uint32 i = 0; i < static_cast<uint32>(rate);i++)
 		{
 			if (this->maxvelx == this->minvelx) {
 				velX = this->maxvelx;
