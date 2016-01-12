@@ -4,7 +4,7 @@
 #include "particle.h"
 class Emitter {
 public:
-	Emitter(Image* image, bool autofade, uint32 particlesMaxAffectors =0);
+	Emitter(Image* image, bool autofade);
 	virtual void SetPosition(double x, double y) {
 		this->x = x;
 		this->y = y;
@@ -13,6 +13,10 @@ public:
 	virtual void SetY(double y) { this->y = y; }
 	virtual double GetX()const { return this->x; }
 	virtual double GetY()const { return this->y; }
+	virtual void setScale(double minScale, double maxScale) {
+		this->minScale = minScale;
+		this->maxScale = maxScale;
+	}
 	virtual void SetRate(double minrate, double maxrate) {
 		this->minrate = minrate;
 		this->maxrate = maxrate;
@@ -60,6 +64,7 @@ private:
 	Image* image;
 	bool autofade;
 	double x, y;
+	double minScale, maxScale;
 	double minrate, maxrate;
 	double minvelx, maxvelx;
 	double minvely, maxvely;
@@ -69,7 +74,6 @@ private:
 	uint8 maxr, maxg, maxb;
 	Renderer::BlendMode blendMode;
 	bool emitting;
-	uint32 particlesMaxAffectors;
 	Array<Particle> particles;
 	Array<Affector> affectors;
 	double acumulative;

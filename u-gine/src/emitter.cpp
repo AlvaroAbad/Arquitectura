@@ -1,5 +1,5 @@
 #include "..\include\emitter.h"
-Emitter::Emitter(Image * image, bool autofade, uint32 particlesMaxAffectors)
+Emitter::Emitter(Image * image, bool autofade)
 {
 	this->image = image;
 	this->autofade = autofade;
@@ -23,7 +23,6 @@ Emitter::Emitter(Image * image, bool autofade, uint32 particlesMaxAffectors)
 	this->maxb = 255;
 	this->blendMode = Renderer::ADDITIVE;
 	this->emitting = false;
-	this->particlesMaxAffectors = particlesMaxAffectors;
 	this->acumulative = 0;
 }
 
@@ -147,6 +146,7 @@ void Emitter::Update(double elapsed)
 			this->particles.Last().SetPosition(this->x, this->y);
 			this->particles.Last().SetColor(r, g, b, 255);
 			this->particles.Last().SetBlendMode(this->blendMode);
+			this->particles.Last().setScaleTransformation(this->minScale,this->maxScale);
 		}
 	}
 }

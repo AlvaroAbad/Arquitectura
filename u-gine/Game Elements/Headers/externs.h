@@ -10,6 +10,7 @@
 #define MENU_EXIT "Exit"
 #define MENU_BACK "Back"
 #define FONT_DIR "data/font.png"
+#define COLLISIONER_ENEMY_IMG "data/collisioner.png"
 extern Game *game;
 extern appStates whantedState;
 #endif

@@ -8,9 +8,10 @@
 void AppStateMenu::run() {
 	if (screen) {
 		options.Clear();
-		options.Add("Nivel 1");
-		options.Add("Nivel 2");
-		options.Add("Nivel 3");
+		for (uint32 i = 0; i < LevelManager::Instance().getNumLevels(); i++)
+		{
+			options.Add("Nivel "+(i+1));
+		}
 		options.Add(MENU_BACK);
 	}
 	else {
@@ -18,6 +19,7 @@ void AppStateMenu::run() {
 		options.Add(MENU_START);
 		options.Add(MENU_EXIT);
 	}
+	escapePoint->Update(Screen::Instance().ElapsedTime());
 }
 
 void AppStateMenu::draw() const {
@@ -31,7 +33,7 @@ void AppStateMenu::draw() const {
 		posY += font->GetTextHeight(options[i]);
 	}
 	Renderer::Instance().DrawImage(selectorImage, x - TEXT_POITION_OFFSET- SELECTOR_WIDTH_HEIGHT, y + (selectedOption*font->GetHeight()),0, SELECTOR_WIDTH_HEIGHT, SELECTOR_WIDTH_HEIGHT);
-
+	escapePoint->Render();
 }
 
 void AppStateMenu::getInputs() {
@@ -78,7 +80,7 @@ void AppStateMenu::getInputs() {
 				}
 			}
 			else {
-				if (selectedOption < 3) {
+				if (selectedOption < LevelManager::Instance().getNumLevels()) {
 					selectedOption++;
 				}
 			}
@@ -111,8 +113,19 @@ void AppStateMenu::activate() {
 	ready = true;
 	x = Screen::Instance().GetWidth() / 2;
 	y = Screen::Instance().GetHeight() / 2;
+	escapePoint = new Emitter(ResourceManager::Instance().LoadImage(COLLISIONER_ENEMY_IMG), false);
+	escapePoint->SetPosition(x, y);
+	escapePoint->SetLifetime(2, 2);
+	escapePoint->setScale(0, 5);
+	escapePoint->SetAngularVelocity(0, 0);
+	escapePoint->SetMinColor(255, 255, 255);
+	escapePoint->SetMaxColor(255, 255, 255);
+	escapePoint->SetVelocityX(-256, 256);
+	escapePoint->SetVelocityY(-256, 256);
+	escapePoint->SetRate(1, 1);
+	escapePoint->Start();
 }
 
 void AppStateMenu::deactivate() {
-
+	delete escapePoint;
 }

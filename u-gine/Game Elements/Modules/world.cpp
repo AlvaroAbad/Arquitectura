@@ -7,6 +7,7 @@
 #include "../Headers/enemyShooter.h"
 #include "../Headers/enemyCollisioner.h"
 #include "../Headers/bullet.h"
+#include "../Headers/externs.h"
 
 #define COLLISIONER_SPEED_LIMIT 50
 #define COLLISIONER_SIZE 20
@@ -43,7 +44,7 @@ void World::worldInit()
 	font = ResourceManager::Instance().LoadFont(fontFileName);
 
 	//Load Collisioner Image
-	imageFile = "data/collisioner.png";
+	imageFile = COLLISIONER_ENEMY_IMG;
 	collisionerImage = ResourceManager::Instance().LoadImage(imageFile);
 
 	//Load Player Image

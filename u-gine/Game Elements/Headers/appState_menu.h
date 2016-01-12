@@ -2,6 +2,7 @@
 #define WORLDDEFENDER_APP_STATE_MENU_H
 #include "appState.h"
 #include "../../include/font.h"
+#include "../../include/emitter.h"
 #pragma warning(disable:4820)
 class AppStateMenu : public AppState
 {
@@ -22,6 +23,7 @@ private:
 	Array<String> options;
 	Font *font;
 	Image *selectorImage;
+	Emitter * escapePoint;
 	uint32 x, y, selectedOption, screen;
 	int32 lasPressed;
 	bool ready;

@@ -25,7 +25,10 @@ void Particle::Update(double elapsed)
 
 	this->SetPosition(posX, posY);
 	this->SetAngle(angle);
-
+	double scale = this->finalScale / this->initialLifetime;
+	scale = scale*elapsed;
+	this->startScale += scale;
+	this->SetScale(this->startScale, this->startScale);
 	if (this->autofade) {
 		double alpha = this->GetAlpha();
 		double alphaDecrement=255/ this->initialLifetime;

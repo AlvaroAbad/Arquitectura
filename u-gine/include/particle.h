@@ -13,6 +13,11 @@ public:
 		this->lifetime = lifetime-(this->initialLifetime-this->lifetime);
 		this->initialLifetime = lifetime; 
 	}
+	virtual void setScaleTransformation(double startScale, double finalScale) {
+		this->startScale = startScale;
+		this->finalScale = finalScale;
+		this->SetScale(this->startScale, this->startScale);
+	}
 	virtual double GetLifetime()const { return this->lifetime; };
 	virtual void Update(double elapsed);
 	virtual bool isAffectable() {
@@ -20,6 +25,7 @@ public:
 	}
 	virtual void affect() { this->affected=true; };
 private:
+	double startScale, finalScale;
 	double velocityx,velocityy;
 	double angularVelocity;
 	double lifetime;
