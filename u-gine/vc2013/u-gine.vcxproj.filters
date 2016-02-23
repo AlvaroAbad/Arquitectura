@@ -186,6 +186,12 @@
     <ClInclude Include="..\Game Elements\Headers\componentrender.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game Elements\Headers\message.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game Elements\Headers\languagemanager.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Game Elements\Modules\enemyCollisioner.cpp">
@@ -301,6 +307,15 @@
     </ClCompile>
     <ClCompile Include="..\lib\stb_image.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game Elements\Modules\entity.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game Elements\Modules\componentrender.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game Elements\Modules\languagemanager.cpp">
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

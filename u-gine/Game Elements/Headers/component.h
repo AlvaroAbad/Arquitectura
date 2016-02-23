@@ -5,7 +5,7 @@ class Component
 {
 public:
 	virtual void Update(double elapsed) = 0;
-	//virtual void ReciveMessage(Message msg)=0;
+	virtual void ReciveMessage(Message * msg)=0;
 private:
 	Entity * owner;
 };
