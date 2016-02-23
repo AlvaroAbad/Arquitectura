@@ -59,8 +59,7 @@ bool ValueInRange(double value, double min, double max) {
 }
 
 bool PointInRect(double x, double y, double rectx, double recty, double width, double height) {
-	// TAREA: Implementar funcion
-	return false;
+	return(ValueInRange(x, rectx, rectx + width) && ValueInRange(y, recty, recty + height));
 }
 
 void ClosestPointToRect(double x, double y, double rectx, double recty, double width, double height, double* outx, double* outy) {
@@ -69,14 +68,41 @@ void ClosestPointToRect(double x, double y, double rectx, double recty, double w
 }
 
 bool RectsOverlap(double x1, double y1, double width1, double height1, double x2, double y2, double width2, double height2) {
-	// TAREA: Implementar funcion
-	return false;
+	bool xOverlap1 = ValueInRange(x1, x2, x2 + width2) || ValueInRange(x1 + width1, x2, x2 + width2);
+	bool yOverlap1 = ValueInRange(y1, y2, y2 + height2) || ValueInRange(y1 + height1, y2, y2 + height2);
+	bool xOverlap2= ValueInRange(x2, x1, x1 + width1) || ValueInRange(x2 + width2, x1, x1 + width1);
+	bool yOverlap2= ValueInRange(y2, y1, y1 + height1) || ValueInRange(y2 + height2, y1, y1 + height1);
+	return (xOverlap1 && yOverlap1) || (xOverlap2 && yOverlap2);
 }
 
 void OverlappingRect(double x1, double y1, double width1, double height1, double x2, double y2, double width2, double height2, double* outx, double* outy, double* outwidth, double* outheight) {
-	// TAREA: Implementar funcion
+		if (ValueInRange(x1, x2, x2 + width2)) {
+			*outx = x1;
+		}
+		else {
+			*outx = x2;
+		}
+		if (ValueInRange(y1, y2, y2 + height2)) {
+			*outy = y1;
+		}
+		else {
+			*outy = y2;
+		}
+		if (ValueInRange(x1 + width1, x2, x2 + width2)) {
+			*outwidth = x1 + width1 - *outx;
+		}
+		else {
+			*outwidth = x2 + width2 - *outx;
+		}
+		if(ValueInRange(y1+height1, y2, y2 + height2)){
+			*outheight = y1 + height1 - *outy;
+		}
+		else {
+			*outheight = y2 + height2 - *outy;
+		}
 }
 
 void TransformIsoCoords(double isoX, double isoY, double isoZ, double* screenX, double* screenY) {
-	// TAREA: Implementar funcion
+	*screenX = (isoX - isoY) * DegCos(26.6);
+	*screenY = isoZ + (isoX + isoY) * DegSin(26.6);
 }

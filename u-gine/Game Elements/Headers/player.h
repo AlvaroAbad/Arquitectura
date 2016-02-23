@@ -12,7 +12,7 @@ public:
 		RIGHT=1,
 		STOP=0
 	};
-	Player(Image * image,String id,double x, double y, double radius) : radius(radius),Entity(image,String::Chr('P')+id,x,y,2*radius,2*radius) { 
+	Player(Sprite * sprite,String id,double x, double y, double radius) : radius(radius),Entity(sprite,String::Chr('P')+id,x,y,2*radius,2*radius) { 
 		this->status = 0; 
 		this->firing = 0;
 		this->overheat = 0;

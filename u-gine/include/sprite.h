@@ -21,7 +21,7 @@ public:
 	Sprite(Image* image);
 	virtual ~Sprite();
 
-	virtual void SetImage(Image* image) { this->image = image; }
+	virtual void SetImage(Image* image) {this->image = image;}
     virtual const Image* GetImage() const { return this->image;}
 
 	virtual void SetPosition(double x, double y, double z = 0) { 
@@ -55,10 +55,13 @@ public:
     virtual void SetFrameRange(uint16 firstFrame, uint16 lastFrame) { 
 		this->firstFrame = firstFrame;
 		this->lastFrame = lastFrame;
+		if (currentFrame<firstFrame || currentFrame>lastFrame) {
+			currentFrame = firstFrame;
+		}
 	}
     virtual uint16 GetFirstFrame() const { return this->firstFrame;}
     virtual uint16 GetLastFrame() { return this->lastFrame;}
-	virtual void SetCurrentFrame(uint16 frame) { this->currentFrame = currentFrame;}
+	virtual void SetCurrentFrame(uint16 frame) { this->currentFrame = frame;}
     virtual uint16 GetCurrentFrame() const { return this->currentFrame;}
 
 	virtual void SetBlendMode(Renderer::BlendMode blend) { this->blendMode = blend;}
@@ -79,11 +82,11 @@ public:
 
 	virtual void SetCollision(CollisionMode mode);
 	virtual void SetCollisionPixelData(const CollisionPixelData* colPixelData) { this->colPixelData = colPixelData;}
-    virtual const Collision* GetCollision() const { return this->collision; /* TAREA: Implementar */ }
+    virtual const Collision* GetCollision() const { return this->collision;}
     virtual bool CheckCollision(Sprite* sprite);
     virtual bool CheckCollision(const Map* map);
-    virtual const Sprite* CollisionSprite() const { return NULL; /* TAREA: Implementar */ }
-    virtual bool DidCollide() const { return false; /* TAREA: Implementar */ }
+    virtual const Sprite*  CollisionSprite() const { return this->colSprite;}
+    virtual bool DidCollide() const { return this->collided;  }
 
     virtual void RotateTo(int32 angle, double speed);
     virtual void MoveTo(double x, double y, double speed);
@@ -98,11 +101,11 @@ public:
 	virtual const void* GetUserData() const { return userData; }
 protected:
     virtual void UpdateCollisionBox();
-    virtual void UpdateCollisionBox(double x, double y, double w, double h);
+    virtual void UpdateCollisionBox(double x, double y, double w, double h, double cX, double cY);
 private:
     Image* image;
     double x, y, z;
-    double colx, coly, colwidth, colheight;
+    double colx, coly, colwidth, colheight, centerX, centerY;
     double angle;
     double scalex, scaley;
     double radius;

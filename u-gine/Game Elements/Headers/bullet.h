@@ -3,7 +3,7 @@
 #include "entity.h"
 class Bullet : public Entity {
 public:
-	Bullet(Image *image, String id, double x, double y, double height, double width) :Entity(image, String::Chr('B') + id, x, y, width, height) {};
+	Bullet(Sprite *sprite, String id, double x, double y, double height, double width) :Entity(sprite, String::Chr('B') + id, x, y, width, height) {};
 
 	virtual void setSpeed(double speed) { this->speed = speed; }
 	virtual double getSpeed() const { return this->speed; }

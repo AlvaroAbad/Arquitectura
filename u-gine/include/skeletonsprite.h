@@ -17,7 +17,7 @@ public:
 	virtual void Update(double elapsed, Map* map = NULL);
     virtual void Render() const;
 protected:
-    virtual void UpdateCollisionBox() { Sprite::UpdateCollisionBox(0, 0, 0, 0); }
+    virtual void UpdateCollisionBox() { Sprite::UpdateCollisionBox(0, 0, 0, 0,0,0); }
 private:
     Bone* root;
 };

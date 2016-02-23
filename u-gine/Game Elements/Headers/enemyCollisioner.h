@@ -3,7 +3,7 @@
 #include "entity.h"
 class EnemyCollisioner: public Entity{
 public:
-	EnemyCollisioner(Image *image, String id, double x, double y, double height, double width) :Entity(image,String::Chr('C')+id, x, y, width, height) {};
+	EnemyCollisioner(Sprite *sprite, String id, double x, double y, double height, double width) :Entity(sprite,String::Chr('C')+id, x, y, width, height) {};
 	virtual void setSpeed(double speed) { this->speed = speed; }
 	virtual double getSpeed() const { return this->speed; }
 

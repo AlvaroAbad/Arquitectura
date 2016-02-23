@@ -1,7 +1,7 @@
 #ifndef WORLDDEFENDER_WORLD_H
 #define WORLDDEFENDER_WORLD_H
 #include "player.h"
-
+#include "../../include/scene.h"
 class World
 {
 public:
@@ -32,6 +32,7 @@ private:
 	Array<Entity*> entities;
 	Array<Entity*> deadEnemies;
 	Entity * firstImpact;
+	Scene * scene;
 	double collisionersElapsedSpawnTime;
 	double shootersElapsedSpawnTime;
 	bool endGame;

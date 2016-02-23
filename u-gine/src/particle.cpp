@@ -25,6 +25,7 @@ void Particle::Update(double elapsed)
 
 	this->SetPosition(posX, posY);
 	this->SetAngle(angle);
+
 	double scale = this->finalScale / this->initialLifetime;
 	scale = scale*elapsed;
 	this->startScale += scale;

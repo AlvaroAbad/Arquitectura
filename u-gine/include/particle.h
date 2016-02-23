@@ -14,7 +14,7 @@ public:
 		this->initialLifetime = lifetime; 
 	}
 	virtual void setScaleTransformation(double startScale, double finalScale) {
-		this->startScale = startScale;
+		this->startScale = startScale+0.1;
 		this->finalScale = finalScale;
 		this->SetScale(this->startScale, this->startScale);
 	}

@@ -1,5 +1,5 @@
-#ifndef WORLDDEFENDER_ENTITY_H
-#define WORLDDEFENDER_ENTITY_H
+#ifndef WORLDDEFENDER_ENEMY_H
+#define WORLDDEFENDER_ENEMY_H
 #include "component.h"
 #include <vector>
 class Entity {

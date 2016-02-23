@@ -10,7 +10,7 @@ void AppStateMenu::run() {
 		options.Clear();
 		for (uint32 i = 0; i < LevelManager::Instance().getNumLevels(); i++)
 		{
-			options.Add("Nivel "+(i+1));
+			options.Add(String("Nivel ")+String::FromInt(i+1));
 		}
 		options.Add(MENU_BACK);
 	}
@@ -122,7 +122,7 @@ void AppStateMenu::activate() {
 	escapePoint->SetMaxColor(255, 255, 255);
 	escapePoint->SetVelocityX(-256, 256);
 	escapePoint->SetVelocityY(-256, 256);
-	escapePoint->SetRate(1, 1);
+	escapePoint->SetRate(1, 5);
 	escapePoint->Start();
 }
 
