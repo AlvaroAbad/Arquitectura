@@ -1,0 +1,8 @@
+<Dictionary>
+	<LANG_START value="Start"/>
+	<LANG_CONTINUE value="Continue"/>
+	<LANG_EXIT value="Exit"/>
+	<LANG_BACK value="Back"/>
+	<LANG_MENU value="Menu"/>
+	<LANG_LEVEL_PARAM value="Level %{0}"/>
+</Dictionary>

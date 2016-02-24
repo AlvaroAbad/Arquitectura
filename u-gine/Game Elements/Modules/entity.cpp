@@ -1,5 +1,5 @@
 #include "..\Headers\entity.h"
-
+#include "../Headers/component.h"
 void Entity::Update(double elapsed)
 {
 	for (unsigned int i = 0; i < components.size(); i++)

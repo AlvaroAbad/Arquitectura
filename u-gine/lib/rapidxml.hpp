@@ -1312,7 +1312,7 @@ namespace rapidxml
                 attribute->m_parent = 0;
             m_first_attribute = 0;
         }
-        
+        void operator =(const xml_node &);
     private:
 
         ///////////////////////////////////////////////////////////////////////////
@@ -1320,7 +1320,7 @@ namespace rapidxml
 
         // No copying
         xml_node(const xml_node &);
-        void operator =(const xml_node &);
+        
     
         ///////////////////////////////////////////////////////////////////////////
         // Data members

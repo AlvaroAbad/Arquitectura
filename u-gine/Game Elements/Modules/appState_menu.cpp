@@ -5,19 +5,20 @@
 #include "../../include/glinclude.h"
 #include "../Headers/externs.h"
 #include "../Headers/lvlManager.h"
+#include "../Headers/languagemanager.h"
 void AppStateMenu::run() {
 	if (screen) {
 		options.Clear();
 		for (uint32 i = 0; i < LevelManager::Instance().getNumLevels(); i++)
 		{
-			options.Add(String("Nivel ")+String::FromInt(i+1));
+			options.Add(*LanguageManager::Instance().GetString("LANGLEVELPARAM", 0, String::FromInt(i + 1)));
 		}
-		options.Add(MENU_BACK);
+		options.Add(*LanguageManager::Instance().GetString("LANG_BACK",0));
 	}
 	else {
 		options.Clear();
-		options.Add(MENU_START);
-		options.Add(MENU_EXIT);
+		options.Add(*LanguageManager::Instance().GetString("LANG_START",0));
+		options.Add(*LanguageManager::Instance().GetString("LANG_EXIT",0));
 	}
 	escapePoint->Update(Screen::Instance().ElapsedTime());
 }
@@ -99,6 +100,7 @@ void AppStateMenu::getInputs() {
 }
 
 void AppStateMenu::activate() {
+	LanguageManager::Instance().LoadLanguage(LanguageManager::ES);
 	if (game) {
 		delete game;
 		game = nullptr;
@@ -108,8 +110,8 @@ void AppStateMenu::activate() {
 	font = ResourceManager::Instance().LoadFont(FileName);
 	FileName = "data/next.png";
 	selectorImage = ResourceManager::Instance().LoadImage(FileName);
-	options.Add(MENU_START);
-	options.Add(MENU_EXIT);
+	options.Add(*LanguageManager::Instance().GetString("LANG_START",0));
+	options.Add(*LanguageManager::Instance().GetString("LANG_EXIT",0));
 	ready = true;
 	x = Screen::Instance().GetWidth() / 2;
 	y = Screen::Instance().GetHeight() / 2;

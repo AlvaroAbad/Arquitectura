@@ -1,5 +1,8 @@
 #ifndef WORLDDEFENDER_LANGUAGEMANAGER_H
 #define WORLDDEFENDER_LANGUAGEMANAGER_H
+#include "../../lib/rapidxml.hpp"
+#include "../../include/string.h"
+using namespace rapidxml;
 class LanguageManager
 {
 public:
@@ -7,14 +10,15 @@ public:
 		ES,
 		EN
 	};
-	LanguageManager& Instance();
+	static LanguageManager& Instance();
 	void LoadLanguage(Language lang);
-	void GetString();
+	String * GetString(String code, int nParams, ...);
 protected:
-	LanguageManager();
-	~LanguageManager();
+	LanguageManager() {};
+	~LanguageManager() {};
 private:
 	static LanguageManager * languageManager;
+	xml_node<> dictionary;
 };
 #endif // !WORLDDEFENDER_LANGUAGEMANAGER_H
 

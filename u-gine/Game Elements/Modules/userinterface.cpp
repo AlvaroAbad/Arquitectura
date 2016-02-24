@@ -10,7 +10,7 @@ void UserInterface::run()
 {
 	world->setMousX(Screen::Instance().GetMouseX());
 	world->setMousY(Screen::Instance().GetMouseY());
-	if (Screen::Instance().KeyPressed(G_KEY_W)) {
+	/*if (Screen::Instance().KeyPressed(G_KEY_W)) {
 		world->getPlayer()->jump();
 	}
 	if (Screen::Instance().KeyPressed(G_KEY_A)) {
@@ -28,5 +28,5 @@ void UserInterface::run()
 	}
 	if (Screen::Instance().MouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT) && !world->getPlayer()->isFiring() && !world->getPlayer()->isOverheated()) {
 		world->getPlayer()->setFiringLimit(FIRING_LIMIT);
-	}
+	}*/
 }

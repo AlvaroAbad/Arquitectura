@@ -1,6 +1,6 @@
 #ifndef WORLDDEFENDER_WORLD_H
 #define WORLDDEFENDER_WORLD_H
-#include "player.h"
+#include "entity.h"
 #include "../../include/scene.h"
 class World
 {
@@ -8,9 +8,9 @@ public:
 	World();
 	void worldInit();
 	~World();
-	Player * getPlayer() {
+	/*Player * getPlayer() {
 		return this->player;
-	}
+	}*/
 	void setMousX(int32 mouseX) { this->mouseX = mouseX; }
 	void setMousY(int32 mouseY) { this->mouseY = mouseY; }
 	bool isEndGame() { return this->endGame; }
@@ -28,10 +28,10 @@ private:
 	Image *collisionerImage;
 	Image *playerImage;
 	Image *bulletImage;
-	Player *player;
+	//Player *player;
 	Array<Entity*> entities;
 	Array<Entity*> deadEnemies;
-	Entity * firstImpact;
+	//Entity * firstImpact;
 	Scene * scene;
 	double collisionersElapsedSpawnTime;
 	double shootersElapsedSpawnTime;
