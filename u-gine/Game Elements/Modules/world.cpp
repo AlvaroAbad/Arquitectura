@@ -8,6 +8,8 @@
 #include "../Headers/enemyCollisioner.h"
 #include "../Headers/bullet.h"
 #include "../Headers/externs.h"
+#include "../Headers/componentrender.h"
+#include "../Headers/componententitystate.h"
 
 #define COLLISIONER_SPEED_LIMIT 50
 #define COLLISIONER_SIZE 20
@@ -28,44 +30,43 @@ World::World()
 	collisionerImage = nullptr;
 	playerImage = nullptr;
 	bulletImage = nullptr;
-	//player = nullptr;
-	//firstImpact = nullptr;
+	player = nullptr;
+	firstImpact = nullptr;
 	collisionersElapsedSpawnTime = 0;
 	shootersElapsedSpawnTime = 0;
 	endGame = false;
 }
 void World::worldInit()
 {
-//	String imageFile;
-//	Array<String> lvlCfg;
-//	Sprite *playerSprite, *collisionerSprite, *shooterSprite;
-//	//Load Font
-//	String fontFileName = "data/font.png";
-//	font = ResourceManager::Instance().LoadFont(fontFileName);
-//
-//	//create Scene
-//	scene = new Scene(LevelManager::Instance().getBackgroundImage());
-//
-//	//Load Collisioner Image
-//	imageFile = COLLISIONER_ENEMY_IMG;
-//	collisionerImage = ResourceManager::Instance().LoadImage(imageFile);
-//
-//	//Load Player Image
-//	imageFile = "data/player.png";
-//	playerImage = ResourceManager::Instance().LoadImage(imageFile);
-//	playerImage->SetMidHandle();
-//
-//	//Load Player Image
-//	imageFile = "data/bullet.png";
-//	bulletImage = ResourceManager::Instance().LoadImage(imageFile);
-//	bulletImage->SetMidHandle();
-//
-//	srand(0);
-//
-//	//player init
-//	playerSprite = scene->CreateSprite(playerImage);
-////	player = new Player(playerSprite, "0", Screen::Instance().GetWidth() / 2, Screen::Instance().GetHeight() - 10, 10);
-//	entities.Add(player);
+	String imageFile;
+	Array<String> lvlCfg;
+	//Load Font
+	String fontFileName = "data/font.png";
+	font = ResourceManager::Instance().LoadFont(fontFileName);
+
+	//create Scene
+	scene = new Scene(LevelManager::Instance().getBackgroundImage());
+
+	//Load Collisioner Image
+	imageFile = COLLISIONER_ENEMY_IMG;
+	collisionerImage = ResourceManager::Instance().LoadImage(imageFile);
+
+	//Load Player Image
+	imageFile = "data/player.png";
+	playerImage = ResourceManager::Instance().LoadImage(imageFile);
+	playerImage->SetMidHandle();
+
+	//Load Bullet Image
+	imageFile = "data/bullet.png";
+	bulletImage = ResourceManager::Instance().LoadImage(imageFile);
+	bulletImage->SetMidHandle();
+
+	srand(0);
+
+	//player init
+	createPlayer();
+//	player = new Player(playerSprite, "0", Screen::Instance().GetWidth() / 2, Screen::Instance().GetHeight() - 10, 10);
+	
 //
 //	//collisioner init
 //	collisionerSprite = scene->CreateSprite(collisionerImage);
@@ -146,6 +147,15 @@ void World::draw()
 	//if (!player->isJumping()) {
 	//	player->setY(Screen::Instance().GetHeight() - player->getHeight() / 2);
 	//}
+}
+
+void World::createPlayer()
+{
+	Entity * player = new Entity();
+	Sprite *playerSprite = scene->CreateSprite(playerImage);
+	ComponentRender * body = new ComponentRender(playerSprite);
+	player->AddComponent(body);
+	entities.Add(player);
 }
 
 void World::playerUpdate(double elapsed)

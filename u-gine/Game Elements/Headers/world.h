@@ -17,6 +17,7 @@ public:
 	void run();
 	void draw();
 protected:
+	void createPlayer();
 	void playerUpdate(double elapsed);
 	void enemiesUpdate(double elapsed);
 	bool rectCircleColision(double rX, double rY, double rWidth, double rHeight, double cX, double cY, double cR1, double cR2);
@@ -28,10 +29,10 @@ private:
 	Image *collisionerImage;
 	Image *playerImage;
 	Image *bulletImage;
-	//Player *player;
+	Entity *player;
 	Array<Entity*> entities;
 	Array<Entity*> deadEnemies;
-	//Entity * firstImpact;
+	Entity * firstImpact;
 	Scene * scene;
 	double collisionersElapsedSpawnTime;
 	double shootersElapsedSpawnTime;

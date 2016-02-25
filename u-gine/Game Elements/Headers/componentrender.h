@@ -6,6 +6,7 @@
 class ComponentRender: public Component
 {
 public:
+	ComponentRender(Sprite * sprite) : sprite(sprite) {}
 	virtual void Update(double elapsed);
 	virtual void ReciveMessage(Message * msg);
 private:
