@@ -1,8 +1,7 @@
 #ifndef WORLDDEFENDER_LANGUAGEMANAGER_H
 #define WORLDDEFENDER_LANGUAGEMANAGER_H
-#include "../../lib/rapidxml.hpp"
 #include "../../include/string.h"
-using namespace rapidxml;
+#include <map>
 class LanguageManager
 {
 public:
@@ -12,13 +11,13 @@ public:
 	};
 	static LanguageManager& Instance();
 	void LoadLanguage(Language lang);
-	String * GetString(String code, int nParams, ...);
+	String GetString(String code, int nParams, ...);
 protected:
 	LanguageManager() {};
 	~LanguageManager() {};
 private:
 	static LanguageManager * languageManager;
-	xml_node<> dictionary;
+	std::map<String, String> dictionary;
 };
 #endif // !WORLDDEFENDER_LANGUAGEMANAGER_H
 

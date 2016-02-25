@@ -11,14 +11,14 @@ void AppStateMenu::run() {
 		options.Clear();
 		for (uint32 i = 0; i < LevelManager::Instance().getNumLevels(); i++)
 		{
-			options.Add(*LanguageManager::Instance().GetString("LANGLEVELPARAM", 0, String::FromInt(i + 1)));
+			options.Add(LanguageManager::Instance().GetString("LANG_LEVEL_PARAM", 1, String::FromInt(i + 1)));
 		}
-		options.Add(*LanguageManager::Instance().GetString("LANG_BACK",0));
+		options.Add(LanguageManager::Instance().GetString("LANG_BACK",0));
 	}
 	else {
 		options.Clear();
-		options.Add(*LanguageManager::Instance().GetString("LANG_START",0));
-		options.Add(*LanguageManager::Instance().GetString("LANG_EXIT",0));
+		options.Add(LanguageManager::Instance().GetString("LANG_START",0));
+		options.Add(LanguageManager::Instance().GetString("LANG_EXIT",0));
 	}
 	escapePoint->Update(Screen::Instance().ElapsedTime());
 }
@@ -100,7 +100,7 @@ void AppStateMenu::getInputs() {
 }
 
 void AppStateMenu::activate() {
-	LanguageManager::Instance().LoadLanguage(LanguageManager::ES);
+	LanguageManager::Instance().LoadLanguage(LanguageManager::EN);
 	if (game) {
 		delete game;
 		game = nullptr;
@@ -110,8 +110,8 @@ void AppStateMenu::activate() {
 	font = ResourceManager::Instance().LoadFont(FileName);
 	FileName = "data/next.png";
 	selectorImage = ResourceManager::Instance().LoadImage(FileName);
-	options.Add(*LanguageManager::Instance().GetString("LANG_START",0));
-	options.Add(*LanguageManager::Instance().GetString("LANG_EXIT",0));
+	options.Add(LanguageManager::Instance().GetString("LANG_START",0));
+	options.Add(LanguageManager::Instance().GetString("LANG_EXIT",0));
 	ready = true;
 	x = Screen::Instance().GetWidth() / 2;
 	y = Screen::Instance().GetHeight() / 2;

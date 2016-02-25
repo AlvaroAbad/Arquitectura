@@ -85,18 +85,15 @@
     <ClInclude Include="..\Game Elements\Headers\appState_game.h" />
     <ClInclude Include="..\Game Elements\Headers\appState_menu.h" />
     <ClInclude Include="..\Game Elements\Headers\appState_pause.h" />
-    <ClInclude Include="..\Game Elements\Headers\bullet.h" />
     <ClInclude Include="..\Game Elements\Headers\component.h" />
     <ClInclude Include="..\Game Elements\Headers\componentrender.h" />
+    <ClInclude Include="..\Game Elements\Headers\componententitystate.h" />
     <ClInclude Include="..\Game Elements\Headers\entity.h" />
-    <ClInclude Include="..\Game Elements\Headers\enemyCollisioner.h" />
     <ClInclude Include="..\Game Elements\Headers\externs.h" />
     <ClInclude Include="..\Game Elements\Headers\game.h" />
     <ClInclude Include="..\Game Elements\Headers\languagemanager.h" />
     <ClInclude Include="..\Game Elements\Headers\lvlManager.h" />
     <ClInclude Include="..\Game Elements\Headers\message.h" />
-    <ClInclude Include="..\Game Elements\Headers\player.h" />
-    <ClInclude Include="..\Game Elements\Headers\enemyShooter.h" />
     <ClInclude Include="..\Game Elements\Headers\userinterface.h" />
     <ClInclude Include="..\Game Elements\Headers\world.h" />
     <ClInclude Include="..\include\affector.h" />
@@ -143,6 +140,7 @@
     <ClCompile Include="..\Game Elements\Modules\appState_menu.cpp" />
     <ClCompile Include="..\Game Elements\Modules\appState_pause.cpp" />
     <ClCompile Include="..\Game Elements\Modules\bullet.cpp" />
+    <ClCompile Include="..\Game Elements\Modules\componententitystate.cpp" />
     <ClCompile Include="..\Game Elements\Modules\componentrender.cpp" />
     <ClCompile Include="..\Game Elements\Modules\enemyCollisioner.cpp" />
     <ClCompile Include="..\Game Elements\Modules\enemyShooter.cpp" />

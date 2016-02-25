@@ -1,8 +1,8 @@
 <Dictionary>
-	<LANG_START value="Start"/>
-	<LANG_CONTINUE value="Continue"/>
-	<LANG_EXIT value="Exit"/>
-	<LANG_BACK value="Back"/>
-	<LANG_MENU value="Menu"/>
-	<LANG_LEVEL_PARAM value="Level %{0}"/>
+	<entrie key="LANG_START" value="Start"/>
+	<entrie key="LANG_CONTINUE" value="Continue"/>
+	<entrie key="LANG_EXIT" value="Exit"/>
+	<entrie key="LANG_BACK" value="Back"/>
+	<entrie key="LANG_MENU" value="Menu"/>
+	<entrie key="LANG_LEVEL_PARAM" value="Level %{0}"/>
 </Dictionary>
