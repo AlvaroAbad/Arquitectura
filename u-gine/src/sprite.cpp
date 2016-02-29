@@ -20,7 +20,7 @@ Sprite::Sprite(Image* image) {
 	this->coly = 0;
 	this->colheight = (this->image ? this->image->GetHeight() : 0);
 	this->colwidth = (this->image ? this->image->GetWidth() : 0);
-	this->radius = (this->image ? (this->image->GetHeight()>this->image->GetWidth()? this->image->GetHeight()/2: this->image->GetWidth()/2) : 0);;
+	this->radius = (this->image ? (this->image->GetHeight()>this->image->GetWidth()? this->image->GetHeight()/2: this->image->GetWidth()/2) : 0);
 	this->animFPS = 0;
 	this->firstFrame = 0;
 	this->lastFrame = (this->image? this->image->GetNumFrames():0);

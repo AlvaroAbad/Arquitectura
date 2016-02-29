@@ -10,6 +10,12 @@
 #include "../Headers/externs.h"
 #include "../Headers/componentrender.h"
 #include "../Headers/componententitystate.h"
+#include "../Headers/componentplayercontrol.h"
+#include "../Headers/componentfire.h"
+#include "../Headers/componentautomovement.h"
+#include "../Headers/componentcollision.h"
+#include "../Headers/componenttype.h"
+#include "../Headers/enumentitytype.h"
 
 #define COLLISIONER_SPEED_LIMIT 50
 #define COLLISIONER_SIZE 20
@@ -54,7 +60,7 @@ void World::worldInit()
 	//Load Player Image
 	imageFile = "data/player.png";
 	playerImage = ResourceManager::Instance().LoadImage(imageFile);
-	playerImage->SetMidHandle();
+	playerImage->SetHandle(playerImage->GetWidth()/2,playerImage->GetHeight());
 
 	//Load Bullet Image
 	imageFile = "data/bullet.png";
@@ -65,21 +71,14 @@ void World::worldInit()
 
 	//player init
 	createPlayer();
-//	player = new Player(playerSprite, "0", Screen::Instance().GetWidth() / 2, Screen::Instance().GetHeight() - 10, 10);
 	
-//
-//	//collisioner init
-//	collisionerSprite = scene->CreateSprite(collisionerImage);
-////	EnemyCollisioner *newCollisioner = new EnemyCollisioner(collisionerSprite, "0", Screen::Instance().GetWidth(), rand() % COLLISIONER_SPAWN_AREA + (Screen::Instance().GetHeight() - COLLISIONER_SPAWN_AREA - COLLISIONER_SIZE), COLLISIONER_SIZE, COLLISIONER_SIZE);
-//	newCollisioner->setSpeed(-(rand() % (int)(COLLISIONER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10) + COLLISIONER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10));
-//	entities.Add(newCollisioner);
-//
-//	//shooter init
-//	shooterSprite = scene->CreateSprite(LevelManager::Instance().getShooterImage());
-////	EnemyShooter *newShooter = new EnemyShooter(shooterSprite, "0", (rand() % 1)* Screen::Instance().GetWidth(), rand() % (Screen::Instance().GetHeight() / 2), SHOOTER_SIZE, SHOOTER_SIZE);
-//	newShooter->setSpeedX(rand() % (int)(SHOOTER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10) - ((SHOOTER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10) / 2));
-//	newShooter->setSpeedY(rand() % (int)(SHOOTER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10) - ((SHOOTER_SPEED_LIMIT + LevelManager::Instance().getSpeedBoost() * 10) / 2));
-//	entities.Add(newShooter);
+
+	//collisioner init
+	createCollider();
+	createCollider();
+
+	//shooter init
+	createShooter();
 
 }
 World::~World()
@@ -111,7 +110,24 @@ void World::run()
 		playerUpdate(elapsed);
 		enemiesUpdate(elapsed);
 	}*/
-
+	MessageCheckCollision msgCCollision;
+	for (size_t i = 0; i < entities.Size(); i++)
+	{
+		entities[i]->Update(Screen::Instance().ElapsedTime());
+		for (int j = i + 1; j < (int)entities.Size(); j++) {
+			msgCCollision.entity = entities[j];
+			entities[i]->ReciveMessage(&msgCCollision);
+		}
+	}
+	MessageGetSprite msgGSprite;
+	for (uint32 i = 0; i < deadEnemies.Size(); i++)
+	{
+		deadEnemies[i]->ReciveMessage(&msgGSprite);
+		scene->DeleteSprite(msgGSprite.o_sprite);
+		entities.Remove(deadEnemies[i]);
+		delete deadEnemies[i];
+	}
+	deadEnemies.Clear();
 }
 
 void World::draw()
@@ -147,15 +163,97 @@ void World::draw()
 	//if (!player->isJumping()) {
 	//	player->setY(Screen::Instance().GetHeight() - player->getHeight() / 2);
 	//}
+	Renderer::Instance().SetColor(255, 255, 255, 255);
+	scene->Render();
+	MessageGetFiringVector msgFiringVector;
+	MessageGetEntityState msgEntityState;
+	for (size_t i = 0; i < entities.Size(); i++)
+	{
+		entities[i]->ReciveMessage(&msgFiringVector);
+		if (msgFiringVector.o_firing) {
+			entities[i]->ReciveMessage(&msgEntityState);
+			Renderer::Instance().SetColor(255, 255, 0, 255);
+			Renderer::Instance().DrawLine(msgFiringVector.o_originX, msgFiringVector.o_originY,msgFiringVector.o_targetX, msgFiringVector.o_targetY);
+		}
+	}
+}
+
+void World::CreateBullet(Image * image, double originX, double originY, double directionX, double directionY)
+{
+	Entity * bullet = new Entity();
+	ComponentType * type = new ComponentType(ETEBULLET);
+	bullet->AddComponent(type);
+	Sprite * bulletSprite = scene->CreateSprite(image);
+	bulletSprite->SetCollision(Sprite::COLLISION_RECT);
+	ComponentRender * body = new ComponentRender(bulletSprite);
+	bullet->AddComponent(body);
+	ComponentEntityState *state = new ComponentEntityState(originX, originY, 0, 0, 10, 20);
+	bullet->AddComponent(state);
+	ComponentAutomaticMovement * movement = new ComponentAutomaticMovement(0, 98, false);
+	movement->SetBoundaries(0, 0, 800, 600);
+	bullet->AddComponent(movement);
+	ComponentCollision * collision = new ComponentCollision(bulletSprite->GetCollision(),&deadEnemies);
+	bullet->AddComponent(collision);
+
+	entities.Add(bullet);
 }
 
 void World::createPlayer()
 {
-	Entity * player = new Entity();
+	player = new Entity();
+	ComponentType * type = new ComponentType(ETPLAYER);
+	player->AddComponent(type);
 	Sprite *playerSprite = scene->CreateSprite(playerImage);
+	playerSprite->SetCollision(Sprite::COLLISION_CIRCLE);
 	ComponentRender * body = new ComponentRender(playerSprite);
 	player->AddComponent(body);
+	ComponentEntityState *state = new ComponentEntityState(Screen::Instance().GetWidth()/2, Screen::Instance().GetHeight(),0,0,20,20);
+	player->AddComponent(state);
+	ComponentPlayerControl * control = new ComponentPlayerControl(10, 10);
+	player->AddComponent(control);
+	ComponentFire * fire = new ComponentFire(0.5,nullptr,this);
+	player->AddComponent(fire);
+	ComponentCollision * collision = new ComponentCollision(playerSprite->GetCollision(), &deadEnemies);
+	player->AddComponent(collision);
 	entities.Add(player);
+}
+
+void World::createCollider()
+{
+	Entity * collider = new Entity();
+	ComponentType * type = new ComponentType(ETCOLLISIONER);
+	collider->AddComponent(type);
+	Sprite *colliderSprite = scene->CreateSprite(collisionerImage);
+	colliderSprite->SetCollision(Sprite::COLLISION_RECT);
+	ComponentRender * body = new ComponentRender(colliderSprite);
+	collider->AddComponent(body);
+	ComponentEntityState *state = new ComponentEntityState(Screen::Instance().GetWidth(), Screen::Instance().GetHeight()-rand() % 50, 0, 0, 20, 20);
+	collider->AddComponent(state);
+	ComponentAutomaticMovement * movement = new ComponentAutomaticMovement(-50, 0,false);
+	movement->SetBoundaries(0, 500, 800, 600);
+	collider->AddComponent(movement);
+	ComponentCollision * collision = new ComponentCollision(colliderSprite->GetCollision(), &deadEnemies);
+	collider->AddComponent(collision);
+	entities.Add(collider);
+}
+
+void World::createShooter()
+{
+	Entity * shooter = new Entity();
+	ComponentType * type = new ComponentType(ETSHOOTER);
+	shooter->AddComponent(type);
+	Sprite *shooterSprite = scene->CreateSprite(LevelManager::Instance().getShooterImage());
+	shooterSprite->SetCollision(Sprite::COLLISION_RECT);
+	ComponentRender * body = new ComponentRender(shooterSprite);
+	shooter->AddComponent(body);
+	ComponentEntityState *state = new ComponentEntityState(20, 20, 0, 0, 50, 25);
+	shooter->AddComponent(state);
+	ComponentAutomaticMovement * movement = new ComponentAutomaticMovement(50, 100, false);
+	movement->SetBoundaries(0, 0, 800, 300);
+	shooter->AddComponent(movement);
+	ComponentCollision * collision = new ComponentCollision(shooterSprite->GetCollision(), &deadEnemies);
+	shooter->AddComponent(collision);
+	entities.Add(shooter);
 }
 
 void World::playerUpdate(double elapsed)
@@ -298,38 +396,3 @@ bool World::rectCircleColision(double rX, double rY, double rWidth, double rHeig
 	return false;
 }
 
-bool World::rayRectColision(double rX, double rY, double rWidth, double rHeight, double oX, double oY, double dX, double dY)
-{
-	uint32 tlAngle, brAngle, lineAngle;
-	tlAngle = Angle(rX, rY, oX, oY);
-	brAngle = Angle(rX + rWidth, rY + rHeight, oX, oY);
-	lineAngle = Angle(dX, dY, oX, oY);
-	return lineAngle <= tlAngle &&  lineAngle >= brAngle;
-}
-
-int32 World::closestRectToPoint(double oX, double oY, double r1X, double r1Y, double r1Width, double r1Height, double r2X, double r2Y, double r2Width, double r2Height)
-{
-	uint32 ret;
-	double distance[8] = {
-		Distance(oX, oY, r1X, r1Y),
-		Distance(oX, oY, r1X + r1Width, r1Y),
-		Distance(oX, oY, r1X, r1Y + r1Height),
-		Distance(oX, oY, r1X, r1Y + r1Height),
-		Distance(oX, oY, r2X, r2Y),
-		Distance(oX, oY, r2X + r2Width, r2Y),
-		Distance(oX, oY, r2X, r2Y + r2Height),
-		Distance(oX, oY, r2X + r2Width, r2Y + r2Height)
-	};
-	ret = 0;
-	for (size_t i = 1; i < 8; i++) {
-		if (distance[ret] > distance[i]) {
-			ret = i;
-		}
-	}
-	if (ret > 3) {
-		return -1;
-	}
-	else {
-		return 1;
-	}
-}

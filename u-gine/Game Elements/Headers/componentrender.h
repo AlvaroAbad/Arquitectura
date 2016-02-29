@@ -10,7 +10,6 @@ public:
 	virtual void Update(double elapsed);
 	virtual void ReciveMessage(Message * msg);
 private:
-	Entity * owner;
 	Sprite * sprite;
 };
 #endif // !WORLDDEFENDER_COMPONENTRENDER_H

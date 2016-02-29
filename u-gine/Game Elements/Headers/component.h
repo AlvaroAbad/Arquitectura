@@ -6,7 +6,8 @@ class Component
 public:
 	virtual void Update(double elapsed) = 0;
 	virtual void ReciveMessage(Message * msg)=0;
-private:
+	virtual void setOwner(Entity * owner) { this->owner = owner; }
+protected:
 	Entity * owner;
 };
 #endif // !WORLDDEFENDER_COMPONENT_H

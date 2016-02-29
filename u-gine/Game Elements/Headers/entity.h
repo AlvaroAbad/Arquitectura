@@ -8,6 +8,7 @@ public:
 	void Update(double elapsed);
 	void ReciveMessage(Message * msg);
 	void AddComponent(Component * component);
+	~Entity();
 private:
 	std::vector<Component*> components;
 };

@@ -183,6 +183,24 @@
     <ClInclude Include="..\Game Elements\Headers\componententitystate.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game Elements\Headers\componentplayercontrol.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game Elements\Headers\componentfire.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game Elements\Headers\componentautomovement.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game Elements\Headers\componentcollision.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game Elements\Headers\componenttype.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game Elements\Headers\enumentitytype.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Game Elements\Modules\enemyCollisioner.cpp">
@@ -309,6 +327,21 @@
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="..\Game Elements\Modules\componententitystate.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game Elements\Modules\componentplayercontrol.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game Elements\Modules\componentfire.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game Elements\Modules\componentautomovement.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game Elements\Modules\componentcollision.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game Elements\Modules\componenttype.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>

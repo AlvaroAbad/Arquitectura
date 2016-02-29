@@ -44,7 +44,7 @@ void LevelManager::loadLevel(levelDificulty difuculty)
 	levelParameters = levelFile.Split("\n");
 	backgroundImage = ResourceManager::Instance().LoadImage(levelParameters[0].Replace("\r",""));
 	shooterImage = ResourceManager::Instance().LoadImage(levelParameters[1].Replace("\r", ""));
-	shooterImage->SetHandle(shooterImage->GetWidth() / 2, shooterImage->GetHeight());
+	//shooterImage->SetHandle(shooterImage->GetWidth() / 2, shooterImage->GetHeight());
 	speedBoost = levelParameters[2].ToInt();
 }
 

@@ -1,33 +1,115 @@
+#ifndef WORLDDEFENDERS_MESSAGES_H
+#define WORLDDEFENDERS_MESSAGES_H
+#include "enumentitytype.h"
+class Collision;
+class Entity;
+class Sprite;
 struct Message {
 	enum msgType {
 		MSGMOVE,
 		MSGGETENTITYSTATE,
 		MSGROTATE,
-		MSGSCALE
+		MSGSCALE,
+		MSGSPOS,
+		MSGSROT,
+		MSGSSCALE,
+		MSGFIRE,
+		MSGGFIREVECTOR,
+		MSGCFIRECOL,
+		MSGCCOL,
+		MSGGCOL,
+		MSGSCOL,
+		MSGGTYPE, 
+		MSGGSPRITE
 	};
 	msgType type;
 };
 struct MessageGetEntityState : public Message {
-	MessageGetEntityState(){
+	MessageGetEntityState() {
 		type = MSGGETENTITYSTATE;
 	}
-	double o_x, o_y, o_z, o_rot, o_sX,o_sY;
+	double o_x, o_y, o_z, o_rot, o_width, o_height;
 };
-struct MessageMove : public Message {
-	MessageMove() {
-		type = MSGMOVE;
+struct MessageSetPos : public Message {
+	MessageSetPos(double x, double y, double z):x(x),y(y),z(z) {
+		type = MSGSPOS;
 	}
 	double x, y, z;
 };
-struct MessageRotate : public Message {
-	MessageRotate() {
-		type = MSGROTATE;
+struct MessageSetRotation : public Message {
+	MessageSetRotation() {
+		type = MSGSROT;
 	}
 	double rot;
 };
-struct MessageScale : public Message {
-	MessageScale() {
-		type = MSGSCALE;
+struct MessageSetScale : public Message {
+	MessageSetScale(double width, double height):width(width), height(height){
+		type = MSGSSCALE;
 	}
-	double scaleX, scaleY;
+	double width, height;
 };
+struct MessageMove : public Message {
+	enum direction {
+		DIRNULL,
+		DIRUP,
+		DIRDOWN,
+		DIRLEFT,
+		DIRRIGHT
+	};
+	MessageMove() {
+		type = MSGMOVE;
+	}
+	direction Vertical, Horizontal;
+};
+struct MessageFire : public Message {
+	MessageFire(double targetX, double targetY):targetX(targetX), targetY(targetY){
+		type = MSGFIRE;
+	}
+	double targetX, targetY;
+};
+struct MessageGetFiringVector : public Message {
+	MessageGetFiringVector() {
+		type = MSGGFIREVECTOR;
+	}
+	bool o_firing;
+	double o_originX, o_originY, o_targetX, o_targetY;
+};
+struct MessageCheckFireCollision : public Message {
+	MessageCheckFireCollision(double originX, double originY, double targetX, double targetY)
+	:originX(originX), originY(originY), targetX(targetX), targetY(targetX){
+		type = MSGCFIRECOL;
+	}
+	bool collision;
+	double originX, originY, targetX, targetY;
+};
+struct MessageCheckCollision : public Message {
+	MessageCheckCollision(){
+		type = MSGCCOL;
+	}
+	Entity * entity;
+};
+struct MessageGetCollider : public Message {
+	MessageGetCollider() {
+		type = MSGGCOL;
+	}
+	const Collision * o_collision;
+};
+struct MessageSetCollision : public Message {
+	MessageSetCollision(Entity *entity): entity(entity){
+		type = MSGSCOL;
+	}
+	Entity *entity;
+};
+struct MessageGetEntityType : public Message {
+	MessageGetEntityType() {
+		type = MSGGTYPE;
+	}
+	EntityType o_eType;
+};
+struct MessageGetSprite : public Message {
+	MessageGetSprite() {
+		type = MSGGSPRITE;
+	}
+	Sprite* o_sprite;
+};
+#endif // !WORLDDEFENDERS_MESSAGES_H
