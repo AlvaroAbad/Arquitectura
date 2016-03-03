@@ -35,7 +35,6 @@ void ComponentCollision::Update(double elapsed)
 
 void ComponentCollision::ReciveMessage(Message * msg)
 {
-
 	switch (msg->type)
 	{
 	case Message::MSGCCOL:
@@ -77,14 +76,7 @@ void ComponentCollision::ReciveMessage(Message * msg)
 		MessageCheckFireCollision * msgCFireCollision = static_cast<MessageCheckFireCollision *>(msg);
 		MessageGetEntityState msgGEntityState;
 		owner->ReciveMessage(&msgGEntityState);
-		uint32 tlAngle, brAngle, trAngle, blAngle, lineAngle;
-		tlAngle = Angle(msgGEntityState.o_x, msgGEntityState.o_y, msgCFireCollision->originX, msgCFireCollision->originY);
-		brAngle = Angle(msgGEntityState.o_x + msgGEntityState.o_width, msgGEntityState.o_y + msgGEntityState.o_height, msgCFireCollision->originX, msgCFireCollision->originY);
-		trAngle = Angle(msgGEntityState.o_x + msgGEntityState.o_width, msgGEntityState.o_y, msgCFireCollision->originX, msgCFireCollision->originY);
-		blAngle = Angle(msgGEntityState.o_x, msgGEntityState.o_y + msgGEntityState.o_height, msgCFireCollision->originX, msgCFireCollision->originY);
-		lineAngle = Angle(msgCFireCollision->targetX, msgCFireCollision->targetY, msgCFireCollision->originX, msgCFireCollision->originY);
-		if ((blAngle >= lineAngle && trAngle <= lineAngle)
-			|| (tlAngle >= lineAngle && brAngle <= lineAngle)) {
+		if (RayRectOverlap(msgCFireCollision->originX, msgCFireCollision->originY, msgCFireCollision->targetX, msgCFireCollision->targetY, msgGEntityState.o_x, msgGEntityState.o_y, msgGEntityState.o_width, msgGEntityState.o_height)) {
 			didCollide = true;
 			collidedType = ETLASER;
 		}

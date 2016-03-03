@@ -8,7 +8,7 @@ void ComponentFire::Update(double elapsed)
 		owner->ReciveMessage(&msgEntityState);
 		if (fireImage) {
 			if (!remeiningCD) {
-				world->CreateBullet(fireImage, msgEntityState.o_x, msgEntityState.o_y, targetX, targetY);
+				world->CreateBullet(fireImage, msgEntityState.o_x+ msgEntityState.o_width/2, msgEntityState.o_y+ msgEntityState.o_height, targetX, targetY);
 				fire = false;
 				remeiningCD = cooldown;
 			}

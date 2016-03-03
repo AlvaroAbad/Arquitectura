@@ -16,6 +16,7 @@
 #include "../Headers/componentcollision.h"
 #include "../Headers/componenttype.h"
 #include "../Headers/enumentitytype.h"
+#include "../Headers/componentsensorline.h"
 
 #define COLLISIONER_SPEED_LIMIT 50
 #define COLLISIONER_SIZE 20
@@ -51,7 +52,8 @@ void World::worldInit()
 	font = ResourceManager::Instance().LoadFont(fontFileName);
 
 	//create Scene
-	scene = new Scene(LevelManager::Instance().getBackgroundImage());
+	//scene = new Scene(LevelManager::Instance().getBackgroundImage());
+	scene = new Scene(NULL);
 
 	//Load Collisioner Image
 	imageFile = COLLISIONER_ENEMY_IMG;
@@ -189,7 +191,7 @@ void World::CreateBullet(Image * image, double originX, double originY, double d
 	bullet->AddComponent(body);
 	ComponentEntityState *state = new ComponentEntityState(originX, originY, 0, 0, 10, 20);
 	bullet->AddComponent(state);
-	ComponentAutomaticMovement * movement = new ComponentAutomaticMovement(0, 98, false);
+	ComponentAutomaticMovement * movement = new ComponentAutomaticMovement(0, 98, true, &deadEnemies);
 	movement->SetBoundaries(0, 0, 800, 600);
 	bullet->AddComponent(movement);
 	ComponentCollision * collision = new ComponentCollision(bulletSprite->GetCollision(),&deadEnemies);
@@ -209,7 +211,7 @@ void World::createPlayer()
 	player->AddComponent(body);
 	ComponentEntityState *state = new ComponentEntityState(Screen::Instance().GetWidth()/2, Screen::Instance().GetHeight(),0,0,20,20);
 	player->AddComponent(state);
-	ComponentPlayerControl * control = new ComponentPlayerControl(10, 10);
+	ComponentPlayerControl * control = new ComponentPlayerControl(100, 100);
 	player->AddComponent(control);
 	ComponentFire * fire = new ComponentFire(0.5,nullptr,this);
 	player->AddComponent(fire);
@@ -229,7 +231,7 @@ void World::createCollider()
 	collider->AddComponent(body);
 	ComponentEntityState *state = new ComponentEntityState(Screen::Instance().GetWidth(), Screen::Instance().GetHeight()-rand() % 50, 0, 0, 20, 20);
 	collider->AddComponent(state);
-	ComponentAutomaticMovement * movement = new ComponentAutomaticMovement(-50, 0,false);
+	ComponentAutomaticMovement * movement = new ComponentAutomaticMovement(-50, 0,false, &deadEnemies);
 	movement->SetBoundaries(0, 500, 800, 600);
 	collider->AddComponent(movement);
 	ComponentCollision * collision = new ComponentCollision(colliderSprite->GetCollision(), &deadEnemies);
@@ -248,9 +250,13 @@ void World::createShooter()
 	shooter->AddComponent(body);
 	ComponentEntityState *state = new ComponentEntityState(20, 20, 0, 0, 50, 25);
 	shooter->AddComponent(state);
-	ComponentAutomaticMovement * movement = new ComponentAutomaticMovement(50, 100, false);
+	ComponentAutomaticMovement * movement = new ComponentAutomaticMovement(50, 100, false, &deadEnemies);
 	movement->SetBoundaries(0, 0, 800, 300);
 	shooter->AddComponent(movement);
+	ComponentSensorLine * sensor = new ComponentSensorLine(0.5,0.5,player, ComponentSensorLine::VERTICAL,Screen::Instance().GetHeight());
+	shooter->AddComponent(sensor);
+	ComponentFire * fire = new ComponentFire(0.5, bulletImage, this);
+	shooter->AddComponent(fire);
 	ComponentCollision * collision = new ComponentCollision(shooterSprite->GetCollision(), &deadEnemies);
 	shooter->AddComponent(collision);
 	entities.Add(shooter);

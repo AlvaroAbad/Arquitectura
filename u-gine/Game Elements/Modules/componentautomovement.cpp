@@ -16,7 +16,7 @@ void ComponentAutomaticMovement::Update(double elapsed)
 	msgEntityState.o_y += speedV*elapsed;
 	if (msgEntityState.o_x < topLeftBoundariesX || msgEntityState.o_x > botRightBoundariesX) {
 		if (destroyOnExit) {
-
+			deadEnemies->Add(owner);
 		}
 		else {
 			msgEntityState.o_x = (msgEntityState.o_x < topLeftBoundariesX ? topLeftBoundariesX : botRightBoundariesX);

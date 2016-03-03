@@ -20,6 +20,7 @@ bool PointInRect(double x, double y, double rectx, double recty, double width, d
 void ClosestPointToRect(double x, double y, double rectx, double recty, double width, double height, double* outx, double* outy);
 bool RectsOverlap(double x1, double y1, double width1, double height1, double x2, double y2, double width2, double height2);
 void OverlappingRect(double x1, double y1, double width1, double height1, double x2, double y2, double width2, double height2, double* outx, double* outy, double* outwidth, double* outheight);
+bool RayRectOverlap(double rayOX, double rayOY, double rayDX, double rayDY, double RectX, double RectY, double RectWidth, double RectHeight);
 void TransformIsoCoords(double isoX, double isoY, double isoZ, double* screenX, double* screenY);
 
 #endif

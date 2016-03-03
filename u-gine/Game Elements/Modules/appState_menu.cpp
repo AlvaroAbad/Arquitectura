@@ -100,7 +100,7 @@ void AppStateMenu::getInputs() {
 }
 
 void AppStateMenu::activate() {
-	LanguageManager::Instance().LoadLanguage(LanguageManager::EN);
+	LanguageManager::Instance().LoadLanguage(LanguageManager::ES);
 	if (game) {
 		delete game;
 		game = nullptr;
