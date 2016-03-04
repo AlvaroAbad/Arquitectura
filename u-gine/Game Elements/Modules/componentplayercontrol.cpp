@@ -4,10 +4,6 @@ void ComponentPlayerControl::Update(double elapsed)
 {
 	MessageGetEntityState msgEntityState;
 	owner->ReciveMessage(&msgEntityState);
-	if(originalWidth && originalHeight){
-	msgEntityState.o_width =originalWidth;
-	msgEntityState.o_height=originalHeight;
-	}
 	switch (horizontal)
 	{
 	case MessageMove::DIRLEFT:
@@ -31,10 +27,10 @@ void ComponentPlayerControl::Update(double elapsed)
 		}
 		break;
 	case MessageMove::DIRDOWN:
-		originalWidth = msgEntityState.o_width;
-		originalHeight= msgEntityState.o_height;
 		msgEntityState.o_height = msgEntityState.o_height*0.5;
 		msgEntityState.o_width = msgEntityState.o_width*1.5;
+		MessageSetSpriteScale msgSetScale(msgEntityState.o_width, msgEntityState.o_height);
+		owner->ReciveMessage(&msgSetScale);
 		break;
 	}
 	if (msgEntityState.o_y <= Screen::Instance().GetHeight() - (1.5 * msgEntityState.o_height) && isJumping) {
@@ -53,9 +49,8 @@ void ComponentPlayerControl::Update(double elapsed)
 		msgEntityState.o_y += (4*msgEntityState.o_height)*Screen::Instance().ElapsedTime();
 	}
 	MessageSetPos msgSetPos(msgEntityState.o_x, msgEntityState.o_y,0);
-	MessageSetScale msgSetScale(msgEntityState.o_width, msgEntityState.o_height);
 	owner->ReciveMessage(&msgSetPos);
-	owner->ReciveMessage(&msgSetScale);
+	
 
 }
 

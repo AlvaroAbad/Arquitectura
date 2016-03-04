@@ -5,4 +5,7 @@
 	<entrie key="LANG_BACK" value="Atras"/>
 	<entrie key="LANG_MENU" value="Menu"/>
 	<entrie key="LANG_LEVEL_PARAM" value="Nivel %{0}"/>
+		<entrie key="LANG_LANGUAGE" value="Idioma"/>
+	<entrie key="LANG_SPANISH" value="Español"/>
+	<entrie key="LANG_ENGLISH" value="Ingles"/>
 </Dictionary>

@@ -13,7 +13,12 @@ public:
 	virtual void loadLevel(levelDificulty difuculty);
 	virtual Image * getBackgroundImage()const { return this->backgroundImage; }
 		virtual Image * getShooterImage() const { return this->shooterImage; }
-		virtual double getSpeedBoost() const { return this->speedBoost; }
+		virtual double getShooterVSpeed() const { return this->shooterVSpeed; }
+		virtual double getShooterHSpeed() const { return this->shooterHSpeed; }
+		virtual double getShooterSpawnRate() const { return this->shooterSpawnRate; }
+		virtual double getCollisionerVSpeed() const { return this->collisionerVSpeed; }
+		virtual double getCollisionerHSpeed() const { return this->collisionerHSpeed; }
+		virtual double getCollisionerSpawnRate() const { return this->collisionerSpawnRate; }
 		virtual uint32 getNumLevels() const { return levels.Size(); } 
 protected:
 	LevelManager();
@@ -22,6 +27,6 @@ private:
 	Array<String> levels;
 	static LevelManager * levelManager;
 	Image * backgroundImage, *shooterImage;
-	double speedBoost;
+	double shooterVSpeed, shooterHSpeed, shooterSpawnRate, collisionerVSpeed, collisionerHSpeed, collisionerSpawnRate;
 };
 #endif

@@ -109,9 +109,9 @@ bool RayRectOverlap(double rayOX, double rayOY, double rayDX, double rayDY, doub
 	double tlDistance, brDistance, trDistance, blDistance, lineDistance;
 
 	tlDistance = Distance(RectX, RectY, rayOX, rayOY);
-	brDistance = Distance(RectX + RectWidth, rayOY + RectHeight, rayOX, rayOY);
-	trDistance = Distance(RectX + RectWidth, rayOY, rayOX, rayOY);
-	blDistance = Distance(RectX, rayOY + RectHeight, rayOX, rayOY);
+	brDistance = Distance(RectX + RectWidth, RectY + RectHeight, rayOX, rayOY);
+	trDistance = Distance(RectX + RectWidth, RectY, rayOX, rayOY);
+	blDistance = Distance(RectX, RectY + RectHeight, rayOX, rayOY);
 	lineDistance = Distance(rayDX, rayDY, rayOX, rayOY);
 	if (lineDistance > tlDistance
 		|| lineDistance > brDistance
@@ -119,9 +119,9 @@ bool RayRectOverlap(double rayOX, double rayOY, double rayDX, double rayDY, doub
 		|| lineDistance > blDistance) {
 
 		tlAngle = Angle(RectX, RectY, rayOX, rayOY);
-		brAngle = Angle(RectX + RectWidth, rayOY + RectHeight, rayOX, rayOY);
-		trAngle = Angle(RectX + RectWidth, rayOY, rayOX, rayOY);
-		blAngle = Angle(RectX, rayOY + RectHeight, rayOX, rayOY);
+		brAngle = Angle(RectX + RectWidth, RectY + RectHeight, rayOX, rayOY);
+		trAngle = Angle(RectX + RectWidth, RectY, rayOX, rayOY);
+		blAngle = Angle(RectX, RectY + RectHeight, rayOX, rayOY);
 		lineAngle = Angle(rayDX, rayDY, rayOX, rayOY);
 		return ((blAngle >= lineAngle && trAngle <= lineAngle) || (tlAngle >= lineAngle && brAngle <= lineAngle));
 	}

@@ -7,18 +7,25 @@
 #include "../Headers/lvlManager.h"
 #include "../Headers/languagemanager.h"
 void AppStateMenu::run() {
-	if (screen) {
+	if (!screen) {
+		options.Clear();
+		options.Add(LanguageManager::Instance().GetString("LANG_START", 0));
+		options.Add(LanguageManager::Instance().GetString("LANG_LANGUAGE", 0));
+		options.Add(LanguageManager::Instance().GetString("LANG_EXIT", 0));
+
+	}
+	else if (screen > 0) {
 		options.Clear();
 		for (uint32 i = 0; i < LevelManager::Instance().getNumLevels(); i++)
 		{
 			options.Add(LanguageManager::Instance().GetString("LANG_LEVEL_PARAM", 1, String::FromInt(i + 1)));
 		}
-		options.Add(LanguageManager::Instance().GetString("LANG_BACK",0));
+		options.Add(LanguageManager::Instance().GetString("LANG_BACK", 0));
 	}
 	else {
 		options.Clear();
-		options.Add(LanguageManager::Instance().GetString("LANG_START",0));
-		options.Add(LanguageManager::Instance().GetString("LANG_EXIT",0));
+		options.Add(LanguageManager::Instance().GetString("LANG_SPANISH", 0));
+		options.Add(LanguageManager::Instance().GetString("LANG_ENGLISH", 0));
 	}
 	escapePoint->Update(Screen::Instance().ElapsedTime());
 }
@@ -33,7 +40,7 @@ void AppStateMenu::draw() const {
 		Renderer::Instance().DrawText(font, options[i], x - TEXT_POITION_OFFSET, posY);
 		posY += font->GetTextHeight(options[i]);
 	}
-	Renderer::Instance().DrawImage(selectorImage, x - TEXT_POITION_OFFSET- SELECTOR_WIDTH_HEIGHT, y + (selectedOption*font->GetHeight()),0, SELECTOR_WIDTH_HEIGHT, SELECTOR_WIDTH_HEIGHT);
+	Renderer::Instance().DrawImage(selectorImage, x - TEXT_POITION_OFFSET - SELECTOR_WIDTH_HEIGHT, y + (selectedOption*font->GetHeight()), 0, SELECTOR_WIDTH_HEIGHT, SELECTOR_WIDTH_HEIGHT);
 	escapePoint->Render();
 }
 
@@ -41,30 +48,46 @@ void AppStateMenu::getInputs() {
 	if (ready) {
 		if (Screen::Instance().KeyPressed(GLFW_KEY_ENTER)) {
 			ready = false;
-			lasPressed= GLFW_KEY_ENTER;
+			lasPressed = GLFW_KEY_ENTER;
 			switch (selectedOption) {
 			case 0:
 				if (!screen) {
 					screen++;
 					selectedOption = 0;
 				}
-				else {
+				else if (screen > 0) {
 					whantedState = STATE_GAME;
 					LevelManager::Instance().loadLevel(LevelManager::EASY);
+				}
+				else {
+					screen = 0;
+					selectedOption = 0;
+					LanguageManager::Instance().LoadLanguage(LanguageManager::ES);
 				}
 				break;
 			case 1:
 				if (!screen) {
-					whantedState = STATE_NULL;
+					screen--;
+					selectedOption = 0;
 				}
-				else {
+				else if (screen > 0) {
 					whantedState = STATE_GAME;
 					LevelManager::Instance().loadLevel(LevelManager::MEDIUM);
 				}
+				else {
+					screen = 0;
+					selectedOption = 0;
+					LanguageManager::Instance().LoadLanguage(LanguageManager::EN);
+				}
 				break;
 			case 2:
-				whantedState = STATE_GAME;
-				LevelManager::Instance().loadLevel(LevelManager::HARD);
+				if (!screen) {
+					whantedState = STATE_NULL;
+				}
+				else if (screen > 0) {
+					whantedState = STATE_GAME;
+					LevelManager::Instance().loadLevel(LevelManager::HARD);
+				}
 				break;
 			case 3:
 				screen--;
@@ -75,15 +98,8 @@ void AppStateMenu::getInputs() {
 		else if (Screen::Instance().KeyPressed(GLFW_KEY_DOWN)) {
 			ready = false;
 			lasPressed = GLFW_KEY_DOWN;
-			if (!screen) {
-				if (selectedOption < 1) {
-					selectedOption++;
-				}
-			}
-			else {
-				if (selectedOption < LevelManager::Instance().getNumLevels()) {
-					selectedOption++;
-				}
+			if (selectedOption < options.Size()-1) {
+				selectedOption++;
 			}
 		}
 		else if (Screen::Instance().KeyPressed(GLFW_KEY_UP)) {
@@ -95,7 +111,7 @@ void AppStateMenu::getInputs() {
 		}
 	}
 	else if (!Screen::Instance().KeyPressed(lasPressed)) {
-			ready = true;
+		ready = true;
 	}
 }
 
@@ -110,8 +126,9 @@ void AppStateMenu::activate() {
 	font = ResourceManager::Instance().LoadFont(FileName);
 	FileName = "data/next.png";
 	selectorImage = ResourceManager::Instance().LoadImage(FileName);
-	options.Add(LanguageManager::Instance().GetString("LANG_START",0));
-	options.Add(LanguageManager::Instance().GetString("LANG_EXIT",0));
+	options.Add(LanguageManager::Instance().GetString("LANG_START", 0));
+	options.Add(LanguageManager::Instance().GetString("LANG_LANGUAGE", 0));
+	options.Add(LanguageManager::Instance().GetString("LANG_EXIT", 0));
 	ready = true;
 	x = Screen::Instance().GetWidth() / 2;
 	y = Screen::Instance().GetHeight() / 2;

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 using namespace rapidxml;
+extern LanguageManager::Language lang;
 
 LanguageManager * LanguageManager::languageManager = nullptr;
 
@@ -34,6 +35,7 @@ void LanguageManager::LoadLanguage(Language lang)
 	doc.parse<0>((char*)mapInfo.ToCString());
 	xmlDictionary = doc.first_node("Dictionary");
 	entrie = xmlDictionary->first_node("entrie");
+	dictionary.clear();
 	while (entrie)
 	{
 		key=entrie->first_attribute("key")->value();

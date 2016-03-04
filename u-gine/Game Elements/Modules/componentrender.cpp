@@ -17,5 +17,10 @@ void ComponentRender::ReciveMessage(Message * msg)
 		MessageGetSprite *msgGSprite = static_cast<MessageGetSprite *>(msg);
 		msgGSprite->o_sprite = sprite;
 	}
+	else if (msg->type == Message::MSGSSPRITESCALE) {
+		MessageSetSpriteScale *msgScale = static_cast<MessageSetSpriteScale*>(msg);
+		sprite->SetScale(msgScale->width / sprite->GetImage()->GetWidth(), msgScale->height / sprite->GetImage()->GetHeight());
+		sprite->SetRadius((msgScale->height<msgScale->width ? msgScale->height / 2 : msgScale->width / 2));
+	}
 }
 	

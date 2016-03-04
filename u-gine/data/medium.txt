@@ -1,3 +1,8 @@
 data/mediumBG.jpg
 data/shooter1.png
-5
+75
+150
+3
+-75
+0
+3

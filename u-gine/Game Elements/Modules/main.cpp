@@ -5,6 +5,7 @@
 #include "../../include/screen.h"
 #include "../../include/renderer.h"
 #include "../../include/resourcemanager.h"
+#include "../Headers/languagemanager.h"
 #include "../Headers/game.h"
 AppState *currentState = nullptr;
 appStates whantedState = STATE_MENU;

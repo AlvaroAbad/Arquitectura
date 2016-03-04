@@ -24,7 +24,7 @@ private:
 	Font *font;
 	Image *selectorImage;
 	Emitter * escapePoint;
-	uint32 x, y, selectedOption, screen;
+	int32 x, y, selectedOption, screen;
 	int32 lasPressed;
 	bool ready;
 };

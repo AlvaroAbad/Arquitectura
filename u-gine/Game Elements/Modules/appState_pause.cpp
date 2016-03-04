@@ -4,6 +4,7 @@
 #include "../../include/screen.h"
 #include "../../include/glinclude.h"
 #include "../Headers/externs.h"
+#include "../Headers/languagemanager.h"
 
 void AppStatePause::run()
 {
@@ -73,9 +74,9 @@ void AppStatePause::activate()
 	font = ResourceManager::Instance().LoadFont(FileName);
 	FileName = "data/next.png";
 	selectorImage = ResourceManager::Instance().LoadImage(FileName);
-	options.Add(MENU_CONTINUE);
-	options.Add(MENU_MENU);
-	options.Add(MENU_EXIT);
+	options.Add(LanguageManager::Instance().GetString("LANG_CONTINUE", 0));
+	options.Add(LanguageManager::Instance().GetString("LANG_MENU", 0));
+	options.Add(LanguageManager::Instance().GetString("LANG_EXIT", 0));
 	ready = true;
 	x = Screen::Instance().GetWidth() / 2;
 	y = Screen::Instance().GetHeight() / 2;

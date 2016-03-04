@@ -20,11 +20,8 @@ public:
 	Array<Entity*> * GetEntities() { return &entities; }
 protected:
 	void createPlayer();
-	void createCollider();
+	void createCollisioner();
 	void createShooter();
-	void playerUpdate(double elapsed);
-	void enemiesUpdate(double elapsed);
-	bool rectCircleColision(double rX, double rY, double rWidth, double rHeight, double cX, double cY, double cR1, double cR2);
 	
 private:
 	int32 mouseX, mouseY;

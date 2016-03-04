@@ -14,13 +14,17 @@ void AppStateGame::draw() const
 
 void AppStateGame::getInputs()
 {
-	game->getInput();
+	
 	if (Screen::Instance().KeyPressed(GLFW_KEY_ESC) || game->isEndGame()) {
 		whantedState = STATE_MENU;
 	}
 	else if (Screen::Instance().KeyPressed(GLFW_KEY_SPACE)) {
 		whantedState = STATE_PAUSE;
 	}
+	else {
+		game->getInput();
+	}
+	
 }
 
 void AppStateGame::activate()

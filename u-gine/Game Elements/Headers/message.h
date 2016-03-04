@@ -20,7 +20,8 @@ struct Message {
 		MSGGCOL,
 		MSGSCOL,
 		MSGGTYPE, 
-		MSGGSPRITE
+		MSGGSPRITE,
+		MSGSSPRITESCALE
 	};
 	msgType type;
 };
@@ -76,7 +77,7 @@ struct MessageGetFiringVector : public Message {
 };
 struct MessageCheckFireCollision : public Message {
 	MessageCheckFireCollision(double originX, double originY, double targetX, double targetY)
-	:originX(originX), originY(originY), targetX(targetX), targetY(targetX){
+	:originX(originX), originY(originY), targetX(targetX), targetY(targetY){
 		type = MSGCFIRECOL;
 	}
 	bool collision;
@@ -111,5 +112,11 @@ struct MessageGetSprite : public Message {
 		type = MSGGSPRITE;
 	}
 	Sprite* o_sprite;
+};
+struct MessageSetSpriteScale : public Message {
+	MessageSetSpriteScale(double width, double height) :width(width), height(height) {
+		type = MSGSSPRITESCALE;
+	}
+	double width, height;
 };
 #endif // !WORLDDEFENDERS_MESSAGES_H
